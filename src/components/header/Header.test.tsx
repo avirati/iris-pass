@@ -4,7 +4,7 @@ import { Header } from './Header'
 
 describe('Header Component', () => {
   it('renders', () => {
-    const { container } = render(<Header>Application Name</Header>)
+    const { container } = render(<Header />)
     expect(container).toMatchSnapshot()
   })
 })

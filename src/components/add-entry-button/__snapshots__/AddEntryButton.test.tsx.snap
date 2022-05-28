@@ -4,7 +4,7 @@ exports[`AddEntryButton Component renders 1`] = `
 <div>
   <a
     class="c-fkUJsw c-fkUJsw-hzePUs-size-lg c-fkUJsw-bznQva-cv c-fkUJsw-illGHuH-css"
-    href="/new"
+    href="/#/password-form"
   >
     <svg
       aria-hidden="true"

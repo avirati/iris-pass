@@ -1,12 +1,9 @@
 import React from 'react'
 
-import { Flex } from 'shared-components'
+import { Flex, Link } from 'shared-components'
+import { AddEntryButton } from 'components/add-entry-button'
 
-interface IHeaderProps {
-  children?: React.ReactNode
-}
-
-export const Header: React.FC<IHeaderProps> = ({ children }) => {
+export const Header: React.FC = () => {
   return (
     <Flex
       css={{
@@ -17,7 +14,21 @@ export const Header: React.FC<IHeaderProps> = ({ children }) => {
         justifyContent: 'space-between'
       }}
     >
-      {children}
+      <Link
+        href="/#/"
+        size="lg"
+        css={{
+          color: '$tonal100',
+          textTransform: 'uppercase',
+          '&:hover, &:active, &:focus': {
+            color: '$tonal100',
+            textDecoration: 'none',
+          }
+        }}
+      >
+        Password Manager
+      </Link>
+      <AddEntryButton />
     </Flex>
   )
 }

@@ -5,7 +5,27 @@ exports[`Header Component renders 1`] = `
   <div
     class="c-dhzjXW c-dhzjXW-ijCglgO-css"
   >
-    Application Name
+    <a
+      class="c-kgcOue c-kgcOue-jvTRJO-size-lg c-kgcOue-ijmdcqB-css"
+      href="/#/"
+    >
+      Password Manager
+    </a>
+    <a
+      class="c-fkUJsw c-fkUJsw-hzePUs-size-lg c-fkUJsw-bznQva-cv c-fkUJsw-illGHuH-css"
+      href="/#/password-form"
+    >
+      <svg
+        aria-hidden="true"
+        class="c-dbrbZt c-dbrbZt-hemXWm-size-md c-dbrbZt-ilcqShz-css"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M20 12H4m8-8v16"
+        />
+      </svg>
+    </a>
   </div>
 </div>
 `;

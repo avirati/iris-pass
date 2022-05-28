@@ -10,7 +10,7 @@ export const ContentContainer: React.FC<IContentContainer> = ({ children }) => {
   return (
     <Flex
       css={{
-        px: '$5'
+        p: '$5'
       }}
     >
       {children}
