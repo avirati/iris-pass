@@ -1,7 +1,11 @@
 import React from 'react'
 
+import { ContentContainer } from 'components/content-container'
+
 export const Dashboard: React.FC = () => {
   return (
-    <div>Dashboard</div>
+    <ContentContainer>
+      Dashboard
+    </ContentContainer>
   )
 }

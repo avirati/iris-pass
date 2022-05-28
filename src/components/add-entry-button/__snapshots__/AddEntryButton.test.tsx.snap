@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddEntryButton Component renders 1`] = `
+<div>
+  <a
+    class="c-fkUJsw c-fkUJsw-hzePUs-size-lg c-fkUJsw-bznQva-cv c-fkUJsw-illGHuH-css"
+    href="/new"
+  >
+    <svg
+      aria-hidden="true"
+      class="c-dbrbZt c-dbrbZt-hemXWm-size-md c-dbrbZt-ilcqShz-css"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M20 12H4m8-8v16"
+      />
+    </svg>
+  </a>
+</div>
+`;
