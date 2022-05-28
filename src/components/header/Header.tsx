@@ -11,7 +11,9 @@ export const Header: React.FC = () => {
         backgroundColor: '$tonal600',
         alignItems: 'center',
         px: '$5',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        position: 'sticky',
+        top: 0
       }}
     >
       <Link
