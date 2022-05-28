@@ -1,3 +1,8 @@
+interface IWebsite {
+  heroLetter: string
+  hostname: string
+}
+
 export const copyToClipboard = async (content: string) => {
   if (navigator.clipboard) {
     await navigator.clipboard.writeText(content);
@@ -24,3 +29,20 @@ export const waitForSeconds = (durationInSeconds: number): Promise<void> =>
   new Promise(
     (resolve) => setTimeout(() => resolve(), durationInSeconds * 1000),
   );
+
+export const parseWebsite = (website: string): IWebsite => {
+  const out: IWebsite = {
+    heroLetter: '',
+    hostname: ''
+  }
+  try {
+    const url = new URL(website)
+    out.heroLetter = url.hostname[0]
+    out.hostname = url.hostname
+  } catch (error) {
+    out.heroLetter = website[0]
+    out.hostname = website
+  }
+
+  return out
+}
