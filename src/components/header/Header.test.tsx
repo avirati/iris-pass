@@ -7,5 +7,4 @@ describe('Header Component', () => {
     const { container } = render(<Header>Application Name</Header>)
     expect(container).toMatchSnapshot()
   })
-
 })

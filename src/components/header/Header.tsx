@@ -13,7 +13,8 @@ export const Header: React.FC<IHeaderProps> = ({ children }) => {
         height: '$6',
         backgroundColor: '$tonal600',
         alignItems: 'center',
-        px: '$5'
+        px: '$5',
+        justifyContent: 'space-between'
       }}
     >
       {children}
