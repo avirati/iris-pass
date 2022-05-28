@@ -11,7 +11,7 @@ export const Header: React.FC<IHeaderProps> = ({ children }) => {
     <Flex
       css={{
         height: '$6',
-        backgroundColor: '$tonal500',
+        backgroundColor: '$tonal600',
         alignItems: 'center',
         px: '$5'
       }}
