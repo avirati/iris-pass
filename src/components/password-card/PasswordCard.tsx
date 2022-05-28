@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { IPassword } from 'hooks/usePasswords'
-import { Box, Flex, Heading, Text } from 'shared-components'
+import { Flex, Heading, Text } from 'shared-components'
 import { parseWebsite } from 'utils'
 
 interface IPasswordCard {
@@ -14,7 +14,7 @@ export const PasswordCard: React.FC<IPasswordCard> = ({ password }) => {
 
   return (
     <Flex css={{ gap: '$4' }}>
-      <Box css={{ p: '$4', border: '1px solid $primary', borderRadius: '$0' }}>
+      <Flex css={{ size: '$6', border: '1px solid $primary', borderRadius: '$0', alignItems: 'center', justifyContent: 'center' }}>
         <Heading
           as="h2"
           size="lg"
@@ -24,7 +24,7 @@ export const PasswordCard: React.FC<IPasswordCard> = ({ password }) => {
           }}>
             {heroLetter}
         </Heading>
-      </Box>
+      </Flex>
       <Flex css={{ flexDirection: 'column', justifyContent: 'center', gap: '$4' }}>
         <Heading as="h3" size="sm" css={{ color: '$tonal400' }}>{hostname}</Heading>
         <Text size="sm" css={{ color: '$tonal300' }}>{login}</Text>
