@@ -10,7 +10,7 @@ const onSubmit = (value: any) => {
 export const PasswordForm: React.FC = () => {
   return (
     <ContentContainer>
-      <Form onSubmit={onSubmit} css={{ display: 'flex', gap: '$4', flexDirection: 'column' }}>
+      <Form onSubmit={onSubmit} css={{ display: 'flex', gap: '$4', flexDirection: 'column', flexGrow: 1 }}>
         <InputField label='Website' name='website' placeholder='Website (e.g. https://google.com)'/>
         <InputField label='Login' name='login' placeholder='Login (e.g. you@example.com)'/>
         <Button type="submit">Submit</Button>

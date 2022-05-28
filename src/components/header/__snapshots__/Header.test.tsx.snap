@@ -12,12 +12,12 @@ exports[`Header Component renders 1`] = `
       Password Manager
     </a>
     <a
-      class="c-fkUJsw c-fkUJsw-hzePUs-size-lg c-fkUJsw-bznQva-cv c-fkUJsw-illGHuH-css"
+      class="c-fkUJsw c-fkUJsw-eYnvrx-size-sm c-fkUJsw-bznQva-cv c-fkUJsw-ijkLaoV-css"
       href="/#/password-form"
     >
       <svg
         aria-hidden="true"
-        class="c-dbrbZt c-dbrbZt-hemXWm-size-md c-dbrbZt-ilcqShz-css"
+        class="c-dbrbZt c-dbrbZt-hemXWm-size-md c-dbrbZt-ifinTyY-css"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
