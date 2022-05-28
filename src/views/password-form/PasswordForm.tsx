@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Copy, Ok } from '@atom-learning/icons'
 
 import { ContentContainer } from 'components/content-container'
-import { Button, Form, InputField, SliderField, CheckboxField, SelectField } from 'shared-components'
+import { ActionIcon, Icon, Button, Form, Flex, InputField, SliderField, CheckboxField, SelectField } from 'shared-components'
 import { categories } from 'globalConstants'
 import { generateRandomPassword } from 'randomizer'
+import { copyToClipboard, waitForSeconds } from 'utils'
 
 const onSubmit = (value: any) => {
   console.log(value)
@@ -11,6 +13,7 @@ const onSubmit = (value: any) => {
 
 export const PasswordForm: React.FC = () => {
   const [generatedPassword, setGeneratedPassword] = useState<string>()
+  const [passwordCopied, setPasswordCopied] = useState<boolean>(false)
 
   const [passwordLength, setPasswordLength] = useState<number>(20)
   const [useLetters, setUseLetters] = useState<boolean>(true)
@@ -36,6 +39,15 @@ export const PasswordForm: React.FC = () => {
 
     setGeneratedPassword
   ])
+
+  const copyPasswordToClipboard = useCallback(async () => {
+    if (generatedPassword) {
+      await copyToClipboard(generatedPassword)
+      setPasswordCopied(true)
+      await waitForSeconds(2)
+      setPasswordCopied(false)
+    }
+  }, [generatedPassword, setPasswordCopied])
   return (
     <ContentContainer>
       <Form
@@ -62,13 +74,19 @@ export const PasswordForm: React.FC = () => {
                 placeholder='Login (e.g. you@example.com)'
                 autoComplete='off'
               />
-              <InputField
-                label='Password'
-                name='password'
-                placeholder='Enter or Generate'
-                autoComplete='off'
-                value={generatedPassword}
-              />
+              <Flex css={{ alignItems: 'flex-end', gap: '$2' }}>
+                <InputField
+                  label='Password'
+                  name='password'
+                  placeholder='Enter or Generate'
+                  autoComplete='off'
+                  value={generatedPassword}
+                  css={{ flexGrow: 1 }}
+                />
+                <ActionIcon label='copy-password' appearance='outline' size='lg' onClick={copyPasswordToClipboard}>
+                  <Icon is={passwordCopied ? Ok : Copy}/>
+                </ActionIcon>
+              </Flex>
               <SliderField
                 label={`Password Length (${passwordLength})`}
                 name='passwordLength'
