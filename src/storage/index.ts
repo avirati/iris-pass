@@ -1,1 +1,1 @@
-export { getItem, removeItem, setItem } from './storage'
+export { getItem, getItems, getItemsArray, removeItem, setItem } from './storage'
