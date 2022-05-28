@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header Component renders 1`] = `
+<div>
+  <div
+    class="c-dhzjXW c-dhzjXW-icohvar-css"
+  >
+    Application Name
+  </div>
+</div>
+`;
