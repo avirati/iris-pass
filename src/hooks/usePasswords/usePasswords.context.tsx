@@ -15,6 +15,7 @@ export const UsePasswordContext = createContext<IUsePasswordContext>({
 
 export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const [passwords, setPasswords] = useState<IPassword[]>([])
+  const [refreshCounter, setRefreshCounter] = useState<number>(0)
 
   const addPassword: IUsePasswordContext['addPassword'] = useCallback(async ({
     category,
@@ -33,37 +34,40 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({ 
       })
 
       toast.success('Password saved !')
+      setRefreshCounter(refreshCounter + 1)
     } catch (error) {
       console.error(error)
       toast.error('Unable to save password')
     }
-  }, [])
+  }, [refreshCounter, setRefreshCounter])
 
   const removePassword: IUsePasswordContext['removePassword'] = useCallback(async (id) => {
     try {
       await Storage.removeItem(id)
       toast.success('Password removed !')
+      setRefreshCounter(refreshCounter + 1)
     } catch (error) {
       console.error(error)
       toast.error('Unable to remove password')
     }
-  }, [])
+  }, [refreshCounter, setRefreshCounter])
 
   const updatePassword: IUsePasswordContext['updatePassword'] = useCallback(async (password) => {
     try {
       await Storage.setItem<IPassword>(password.id, password)
       toast.success('Password updated !')
+      setRefreshCounter(refreshCounter + 1)
     } catch (error) {
       console.error(error)
       toast.error('Unable to update password')
     }
-  }, [])
+  }, [refreshCounter, setRefreshCounter])
 
   useEffect(() => {
     Storage
     .getItemsArray<IPassword>()
     .then(setPasswords)
-  }, [])
+  }, [refreshCounter])
 
   return (
     <UsePasswordContext.Provider value={{ passwords, addPassword, removePassword, updatePassword }}>

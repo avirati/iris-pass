@@ -1,38 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Copy, Ok } from '@atom-learning/icons'
-import { v4 as uuid } from 'uuid'
+import { useNavigate } from 'react-router-dom'
 
 import { ContentContainer } from 'components/content-container'
-import { ActionIcon, Icon, Button, Form, Flex, InputField, SliderField, CheckboxField, SelectField, toast } from 'shared-components'
-import { categories, Category } from 'globalConstants'
+import { ActionIcon, Icon, Button, Form, Flex, InputField, SliderField, CheckboxField, SelectField } from 'shared-components'
+import { categories } from 'globalConstants'
 import { generateRandomPassword } from 'randomizer'
 import { copyToClipboard, waitForSeconds } from 'utils'
-import * as Storage from 'storage'
+import { IPassword, usePasswords } from 'hooks/usePasswords'
 
-interface IFormData {
-  category: Category
-  website: string
-  login: string
-  password: string
-}
-
-const onSubmit = async ({ category, login, password, website }: IFormData) => {
-  const id = uuid()
-  try {
-    await Storage.setItem(id, {
-      id,
-      category,
-      login,
-      password,
-      website
-    })
-
-    toast.success('Password saved !')
-  } catch (error) {
-    console.error(error)
-    toast.error('Unable to save password')
-  }
-}
+interface IFormData extends Omit<IPassword, 'id'> {}
 
 export const PasswordForm: React.FC = () => {
   const [generatedPassword, setGeneratedPassword] = useState<string>()
@@ -43,6 +20,9 @@ export const PasswordForm: React.FC = () => {
   const [useNumbers, setUseNumbers] = useState<boolean>(true)
   const [useUppercaseChars, setUseUppercaseChars] = useState<boolean>(false)
   const [useSymbols, setUseSymbols] = useState<boolean>(false)
+
+  const { addPassword } = usePasswords()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const password = generateRandomPassword({
@@ -71,6 +51,12 @@ export const PasswordForm: React.FC = () => {
       setPasswordCopied(false)
     }
   }, [generatedPassword, setPasswordCopied])
+
+  const onSubmit = useCallback(async (formData: IFormData) => {
+    await addPassword(formData)
+    navigate('/#/')
+  }, [addPassword, navigate])
+
   return (
     <ContentContainer>
       <Form

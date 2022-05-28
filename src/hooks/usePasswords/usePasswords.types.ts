@@ -10,7 +10,7 @@ export interface IPassword {
 
 export interface IUsePasswordContext {
   passwords: IPassword[]
-  addPassword: (password: IPassword) => Promise<void>
+  addPassword: (password: Omit<IPassword, 'id'>) => Promise<void>
   removePassword: (id: IPassword['id']) => Promise<void>
   updatePassword: (password: IPassword) => Promise<void>
 }
