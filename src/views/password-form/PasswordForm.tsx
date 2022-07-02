@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Copy, Ok } from '@atom-learning/icons'
-import { useNavigate } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
 import { ContentContainer } from 'components/content-container'
 import { ActionIcon, Icon, Button, Form, Flex, InputField, SliderField, CheckboxField, SelectField } from 'shared-components'
@@ -9,10 +9,12 @@ import { generateRandomPassword } from 'randomizer'
 import { copyToClipboard, waitForSeconds } from 'utils'
 import { IPassword, usePasswords } from 'hooks/usePasswords'
 
-interface IFormData extends Omit<IPassword, 'id'> {}
+interface IFormData extends Omit<IPassword, 'id'> { }
 
 export const PasswordForm: React.FC = () => {
-  const [generatedPassword, setGeneratedPassword] = useState<string>()
+  const [fetchedPassword, setFetchedPassword] = useState<Optional<IPassword>>(null)
+
+  const [generatedPassword, setGeneratedPassword] = useState<string>('')
   const [passwordCopied, setPasswordCopied] = useState<boolean>(false)
 
   const [passwordLength, setPasswordLength] = useState<number>(20)
@@ -21,8 +23,10 @@ export const PasswordForm: React.FC = () => {
   const [useUppercaseChars, setUseUppercaseChars] = useState<boolean>(false)
   const [useSymbols, setUseSymbols] = useState<boolean>(false)
 
-  const { addPassword } = usePasswords()
-  const navigate = useNavigate()
+  const { addPassword, getPassword, updatePassword } = usePasswords()
+  const history = useHistory()
+  const { id } = useParams<{ id: string }>()
+  const isAddMode = !Boolean(id)
 
   useEffect(() => {
     const password = generateRandomPassword({
@@ -53,9 +57,30 @@ export const PasswordForm: React.FC = () => {
   }, [generatedPassword, setPasswordCopied])
 
   const onSubmit = useCallback(async (formData: IFormData) => {
-    await addPassword(formData)
-    navigate('/#/')
-  }, [addPassword, navigate])
+    if (isAddMode) {
+      await addPassword(formData)
+    } else {
+      await updatePassword({
+        ...formData,
+        id
+      })
+    }
+    history.push('/#/')
+  }, [addPassword, history])
+
+  useEffect(() => {
+    if (!isAddMode && !fetchedPassword) {
+      getPassword(id)
+        .then((password) => {
+          if (password) {
+            setFetchedPassword(password)
+          } else {
+            history.push('/#/')
+          }
+        })
+    }
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <ContentContainer>
@@ -68,7 +93,7 @@ export const PasswordForm: React.FC = () => {
               <SelectField name='category' label='Select a Category' fieldId='categories' autoComplete='off'>
                 <option value=''>Select</option>
                 {
-                  categories.map((value) => <option value={value} key={value}>{value}</option>)
+                  categories.map((value) => <option value={value} key={value} selected={value === fetchedPassword?.category}>{value}</option>)
                 }
               </SelectField>
               <InputField
@@ -76,12 +101,14 @@ export const PasswordForm: React.FC = () => {
                 name='website'
                 placeholder='Website (e.g. https://google.com)'
                 autoComplete='off'
+                defaultValue={fetchedPassword?.website}
               />
               <InputField
                 label='Login'
                 name='login'
                 placeholder='Login (e.g. you@example.com)'
                 autoComplete='off'
+                defaultValue={fetchedPassword?.login}
               />
               <Flex css={{ alignItems: 'flex-end', gap: '$2' }}>
                 <InputField
@@ -93,7 +120,7 @@ export const PasswordForm: React.FC = () => {
                   css={{ flexGrow: 1 }}
                 />
                 <ActionIcon label='copy-password' appearance='outline' size='lg' onClick={copyPasswordToClipboard}>
-                  <Icon is={passwordCopied ? Ok : Copy}/>
+                  <Icon is={passwordCopied ? Ok : Copy} />
                 </ActionIcon>
               </Flex>
               <SliderField
@@ -130,7 +157,7 @@ export const PasswordForm: React.FC = () => {
                 checked={useSymbols}
                 onCheckedChange={(checked) => setUseSymbols(checked as boolean)}
               />
-              <Button type="submit">Submit</Button>
+              <Button type="submit">{isAddMode ? 'Add' : 'Update'}</Button>
             </>
           )
         }}

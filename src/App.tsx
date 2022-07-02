@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter, Route, Routes } from 'react-router-dom'
+import { HashRouter, Route, Switch } from 'react-router-dom'
 
 import { Header } from 'components/header';
 import { Dashboard } from 'views/dashboard'
@@ -11,12 +11,13 @@ export const App: React.FC = () => {
   return (
     <ToastProvider>
       <UsePasswordProvider>
+        <Header />
         <HashRouter>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Dashboard />}/>
-            <Route path="/password-form" element={<PasswordForm />}/>
-          </Routes>
+          <Switch>
+            <Route path="/password/add" component={PasswordForm}/>
+            <Route path="/password/update/:id" component={PasswordForm}/>
+            <Route path="/" component={Dashboard}/>
+          </Switch>
         </HashRouter>
       </UsePasswordProvider>
     </ToastProvider>

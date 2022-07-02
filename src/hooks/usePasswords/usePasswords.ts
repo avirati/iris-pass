@@ -6,6 +6,7 @@ export const usePasswords = () => {
   const {
     passwords,
     addPassword,
+    getPassword,
     removePassword,
     updatePassword,
   } = useContext(UsePasswordContext)
@@ -13,6 +14,7 @@ export const usePasswords = () => {
   return {
     passwords,
     addPassword,
+    getPassword,
     removePassword,
     updatePassword
   }

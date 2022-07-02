@@ -10,7 +10,8 @@ export const UsePasswordContext = createContext<IUsePasswordContext>({
   passwords: [],
   addPassword: () => Promise.resolve(),
   removePassword: () => Promise.resolve(),
-  updatePassword: () => Promise.resolve()
+  updatePassword: () => Promise.resolve(),
+  getPassword: () => Promise.resolve(null)
 })
 
 export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
@@ -63,6 +64,17 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({ 
     }
   }, [refreshCounter, setRefreshCounter])
 
+  const getPassword: IUsePasswordContext['getPassword'] = useCallback(async (id) => {
+    try {
+      const password = await Storage.getItem<IPassword>(id)
+      return password
+    } catch (error) {
+      console.error(error)
+      toast.error('Unable to fetch password data')
+      return null
+    }
+  }, [])
+
   useEffect(() => {
     Storage
     .getItemsArray<IPassword>()
@@ -70,7 +82,15 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({ 
   }, [refreshCounter])
 
   return (
-    <UsePasswordContext.Provider value={{ passwords, addPassword, removePassword, updatePassword }}>
+    <UsePasswordContext.Provider
+      value={{
+        passwords,
+        addPassword,
+        removePassword,
+        updatePassword,
+        getPassword,
+      }
+    }>
       {children}
     </UsePasswordContext.Provider>
   )
