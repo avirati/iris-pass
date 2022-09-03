@@ -3,6 +3,7 @@ import { Lock } from '@atom-learning/icons'
 
 import { Flex, Icon, keyframes, Heading } from 'shared-components'
 import { useMasterPassword } from 'hooks/use-master-password'
+import { waitForSeconds } from 'utils'
 
 import { MasterPasswordForm } from './MasterPasswordForm'
 
@@ -24,9 +25,8 @@ export const LockScreen: React.FC = () => {
 
   useEffect(() => {
     setShouldUnlock(Boolean(masterPassword))
-    setTimeout(() => {
-      setIsVisible(false)
-    }, 2000)
+    waitForSeconds(2)
+    .then(() => setIsVisible(false))
   }, [masterPassword])
 
   if (!isVisible) {

@@ -7,9 +7,11 @@ import { Storage } from 'storage'
 import { IPassword, IUsePasswordContext } from './usePasswords.types'
 import { CryptoUtil } from 'utils/crypto'
 import { useMasterPassword } from 'hooks/use-master-password'
+import { copyToClipboard } from 'utils'
 
 export const UsePasswordContext = createContext<IUsePasswordContext>({
   passwords: [],
+  copyPassword: () => Promise.resolve(),
   addPassword: () => Promise.resolve(),
   removePassword: () => Promise.resolve(),
   updatePassword: () => Promise.resolve(),
@@ -81,6 +83,20 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({ 
     }
   }, [])
 
+  const copyPassword: IUsePasswordContext['copyPassword'] = useCallback(async (id) => {
+    try {
+      const password = await store.getItem<IPassword>(id)
+      if (password) {
+        const decryptedPassword = CryptoUtil.decrypt(password.password, masterPassword)
+        await copyToClipboard(decryptedPassword)
+        toast.success('Copied to clipboard')
+      }
+    } catch (error) {
+      console.error(error)
+      toast.error('Unable to fetch password data')
+    }
+  }, [masterPassword])
+
   useEffect(() => {
     store
       .getItemsArray<IPassword>()
@@ -91,6 +107,7 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({ 
     <UsePasswordContext.Provider
       value={{
         passwords,
+        copyPassword,
         addPassword,
         removePassword,
         updatePassword,

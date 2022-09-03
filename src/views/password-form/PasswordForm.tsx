@@ -13,7 +13,8 @@ import {
   SliderField,
   CheckboxField,
   SelectField,
-  useAlert
+  useAlert,
+  toast
 } from 'shared-components'
 import { categories } from 'globalConstants'
 import { generateRandomPassword } from 'randomizer'
@@ -36,7 +37,7 @@ export const PasswordForm: React.FC = () => {
   const [useSymbols, setUseSymbols] = useState<boolean>(false)
   const [passwordRevealed, setPasswordRevealed] = useState<boolean>(false)
 
-  const { addPassword, getPassword, updatePassword, removePassword } = usePasswords()
+  const { addPassword, getPassword, updatePassword, removePassword, copyPassword } = usePasswords()
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
   const { showAlert } = useAlert()
@@ -44,6 +45,8 @@ export const PasswordForm: React.FC = () => {
   const isViewMode = Boolean(id)
 
   useEffect(() => {
+    if (!isEditMode) return
+
     const password = generateRandomPassword({
       passwordLength,
       useLetters,
@@ -58,6 +61,7 @@ export const PasswordForm: React.FC = () => {
     useNumbers,
     useUppercaseChars,
     useSymbols,
+    isEditMode,
 
     setGeneratedPassword
   ])
@@ -68,8 +72,15 @@ export const PasswordForm: React.FC = () => {
       setPasswordCopied(true)
       await waitForSeconds(2)
       setPasswordCopied(false)
+    } else if (fetchedPassword) {
+      await copyPassword(fetchedPassword.id)
+      setPasswordCopied(true)
+      await waitForSeconds(2)
+      setPasswordCopied(false)
+    } else {
+      toast.error('Unable to copy password!')
     }
-  }, [generatedPassword, setPasswordCopied])
+  }, [copyPassword, fetchedPassword, generatedPassword])
 
   const onDeletePasswordClicked = () => {
     showAlert({

@@ -14,4 +14,5 @@ export interface IUsePasswordContext {
   addPassword: (password: Omit<IPassword, 'id'>) => Promise<void>
   removePassword: (id: IPassword['id']) => Promise<void>
   updatePassword: (password: IPassword) => Promise<void>
+  copyPassword: (id: IPassword['id']) => Promise<void>
 }

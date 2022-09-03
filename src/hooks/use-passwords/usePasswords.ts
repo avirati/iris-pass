@@ -5,6 +5,7 @@ import { UsePasswordContext } from './usePasswords.context'
 export const usePasswords = () => {
   const {
     passwords,
+    copyPassword,
     addPassword,
     getPassword,
     removePassword,
@@ -13,6 +14,7 @@ export const usePasswords = () => {
 
   return {
     passwords,
+    copyPassword,
     addPassword,
     getPassword,
     removePassword,
