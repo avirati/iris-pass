@@ -23,6 +23,7 @@ import { IPassword, usePasswords } from 'hooks/use-passwords'
 type IFormData = Omit<IPassword, 'id'>
 
 export const PasswordForm: React.FC = () => {
+  const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [fetchedPassword, setFetchedPassword] = useState<Optional<IPassword>>(null)
 
   const [generatedPassword, setGeneratedPassword] = useState<string>('')
@@ -40,6 +41,7 @@ export const PasswordForm: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const { showAlert } = useAlert()
   const isAddMode = !id
+  const isViewMode = Boolean(id)
 
   useEffect(() => {
     const password = generateRandomPassword({
@@ -161,7 +163,7 @@ export const PasswordForm: React.FC = () => {
                       type={passwordRevealed ? 'text' : 'password'}
                       placeholder='Enter or Generate'
                       autoComplete='off'
-                      defaultValue={passwordRevealed ? fetchedPassword?.password : 'NOTTHEPASSWORDYOUWANT'}
+                      defaultValue="NOT_THE_PASSWORD_YOU_ARE_LOOKING_FOR_:)"
                       css={{ flexGrow: 1 }}
                     />
                   )
@@ -177,43 +179,51 @@ export const PasswordForm: React.FC = () => {
                   )
                 }
               </Flex>
-              <SliderField
-                label={`Password Length (${passwordLength})`}
-                name='passwordLength'
-                defaultValue={[passwordLength]}
-                value={[passwordLength]}
-                min={8}
-                max={100}
-                outputLabel={() => ''}
-                onValueChange={([value]) => setPasswordLength(value)}
-              />
-              <CheckboxField
-                label='Include Letters'
-                name='useLetters'
-                checked={useLetters}
-                onCheckedChange={(checked) => setUseLetters(checked as boolean)}
-              />
-              <CheckboxField
-                label='Include Numbers'
-                name='useNumbers'
-                checked={useNumbers}
-                onCheckedChange={(checked) => setUseNumbers(checked as boolean)}
-              />
-              <CheckboxField
-                label='Include Uppercase Characters'
-                name='useUppercaseChars'
-                checked={useUppercaseChars}
-                onCheckedChange={(checked) => setUseUppercaseChars(checked as boolean)}
-              />
-              <CheckboxField
-                label='Include Symbols'
-                name='useSymbols'
-                checked={useSymbols}
-                onCheckedChange={(checked) => setUseSymbols(checked as boolean)}
-              />
+              {
+                isEditMode && (
+                  <>
+                    <SliderField
+                      label={`Password Length (${passwordLength})`}
+                      name='passwordLength'
+                      defaultValue={[passwordLength]}
+                      value={[passwordLength]}
+                      min={8}
+                      max={100}
+                      outputLabel={() => ''}
+                      onValueChange={([value]) => setPasswordLength(value)}
+                    />
+                    <CheckboxField
+                      label='Include Letters'
+                      name='useLetters'
+                      checked={useLetters}
+                      onCheckedChange={(checked) => setUseLetters(checked as boolean)}
+                    />
+                    <CheckboxField
+                      label='Include Numbers'
+                      name='useNumbers'
+                      checked={useNumbers}
+                      onCheckedChange={(checked) => setUseNumbers(checked as boolean)}
+                    />
+                    <CheckboxField
+                      label='Include Uppercase Characters'
+                      name='useUppercaseChars'
+                      checked={useUppercaseChars}
+                      onCheckedChange={(checked) => setUseUppercaseChars(checked as boolean)}
+                    />
+                    <CheckboxField
+                      label='Include Symbols'
+                      name='useSymbols'
+                      checked={useSymbols}
+                      onCheckedChange={(checked) => setUseSymbols(checked as boolean)}
+                    />
+                  </>
+                )
+              }
               <Flex css={{ gap: '$4', justifyContent: 'space-between' }}>
-                {!isAddMode && <Button theme="danger" onClick={onDeletePasswordClicked}>Delete</Button>}
-                <Button type="submit">{isAddMode ? 'Add' : 'Update'}</Button>
+                {isViewMode && isEditMode && <Button theme="danger" onClick={onDeletePasswordClicked}>Delete</Button>}
+                {isAddMode && <Button type="submit">Add</Button>}
+                {!isAddMode && isEditMode && <Button type="submit">Update</Button>}
+                {!isEditMode && <Button onClick={() => setIsEditMode(true)} css={{ ml: 'auto' }}>Edit</Button>}
               </Flex>
             </>
           )
