@@ -5,6 +5,9 @@ import { toast } from 'shared-components'
 import * as Storage from 'storage'
 
 import { IPassword, IUsePasswordContext } from './usePasswords.types'
+import { CryptoUtil } from 'utils/crypto'
+
+const KEY = 'SOMERANDOMKEY'
 
 export const UsePasswordContext = createContext<IUsePasswordContext>({
   passwords: [],
@@ -26,11 +29,12 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({ 
   }) => {
     const id = uuid()
     try {
+      const encryptedPassword = CryptoUtil.encrypt(password, KEY)
       await Storage.setItem(id, {
         id,
         category,
         login,
-        password,
+        password: encryptedPassword,
         website
       })
 
@@ -77,8 +81,8 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({ 
 
   useEffect(() => {
     Storage
-    .getItemsArray<IPassword>()
-    .then(setPasswords)
+      .getItemsArray<IPassword>()
+      .then(setPasswords)
   }, [refreshCounter])
 
   return (
@@ -90,7 +94,7 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({ 
         updatePassword,
         getPassword,
       }
-    }>
+      }>
       {children}
     </UsePasswordContext.Provider>
   )

@@ -13,6 +13,7 @@
     "@types/node": "^16.11.36",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.5",
+    "crypto-js": "^4.1.1",
     "knuth-shuffle-seeded": "^1.0.6",
     "localforage": "^1.10.0",
     "localforage-getitems": "^1.4.2",
@@ -49,6 +50,7 @@
     ]
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.1.1",
     "@types/react-router-dom": "^5.3.3",
     "@types/uuid": "^8.3.4"
   }

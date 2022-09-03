@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Copy, Ok } from '@atom-learning/icons'
+import { Copy, Ok, Eye, EyeClosed } from '@atom-learning/icons'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { ContentContainer } from 'components/content-container'
@@ -22,6 +22,7 @@ export const PasswordForm: React.FC = () => {
   const [useNumbers, setUseNumbers] = useState<boolean>(true)
   const [useUppercaseChars, setUseUppercaseChars] = useState<boolean>(false)
   const [useSymbols, setUseSymbols] = useState<boolean>(false)
+  const [passwordRevealed, setPasswordRevealed] = useState<boolean>(false)
 
   const { addPassword, getPassword, updatePassword } = usePasswords()
   const history = useHistory()
@@ -66,7 +67,11 @@ export const PasswordForm: React.FC = () => {
       })
     }
     history.push('/#/')
-  }, [addPassword, history])
+  }, [addPassword, history, id, isAddMode, updatePassword])
+
+  const togglePasswordVisibility = useCallback(() => {
+    setPasswordRevealed(!passwordRevealed)
+  }, [passwordRevealed, setPasswordRevealed])
 
   useEffect(() => {
     if (!isAddMode && !fetchedPassword) {
@@ -111,17 +116,38 @@ export const PasswordForm: React.FC = () => {
                 defaultValue={fetchedPassword?.login}
               />
               <Flex css={{ alignItems: 'flex-end', gap: '$2' }}>
-                <InputField
-                  label='Password'
-                  name='password'
-                  placeholder='Enter or Generate'
-                  autoComplete='off'
-                  value={generatedPassword}
-                  css={{ flexGrow: 1 }}
-                />
+                {
+                  isAddMode ? (
+                    <InputField
+                      label='Password'
+                      name='password'
+                      placeholder='Enter or Generate'
+                      autoComplete='off'
+                      defaultValue={generatedPassword}
+                      css={{ flexGrow: 1 }}
+                    />
+                  ) : (
+                    <InputField
+                      label='Password'
+                      name='password'
+                      type={passwordRevealed ? 'text' : 'password'}
+                      placeholder='Enter or Generate'
+                      autoComplete='off'
+                      defaultValue={passwordRevealed ? fetchedPassword?.password : 'NOTTHEPASSWORDYOUWANT'}
+                      css={{ flexGrow: 1 }}
+                    />
+                  )
+                }
                 <ActionIcon label='copy-password' appearance='outline' size='lg' onClick={copyPasswordToClipboard}>
                   <Icon is={passwordCopied ? Ok : Copy} />
                 </ActionIcon>
+                {
+                  !isAddMode && (
+                    <ActionIcon label={passwordRevealed ? 'hide-password' : 'reveal-password'} appearance='outline' size='lg' onClick={togglePasswordVisibility}>
+                      <Icon is={passwordRevealed ? Eye : EyeClosed} />
+                    </ActionIcon>
+                  )
+                }
               </Flex>
               <SliderField
                 label={`Password Length (${passwordLength})`}
