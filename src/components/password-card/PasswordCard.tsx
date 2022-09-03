@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { IPassword } from 'hooks/usePasswords'
+import { IPassword } from 'hooks/use-passwords'
 import { Flex, Heading, Link, Text } from 'shared-components'
 import { parseWebsite } from 'utils'
 

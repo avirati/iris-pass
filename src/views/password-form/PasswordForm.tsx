@@ -7,7 +7,7 @@ import { ActionIcon, Icon, Button, Form, Flex, InputField, SliderField, Checkbox
 import { categories } from 'globalConstants'
 import { generateRandomPassword } from 'randomizer'
 import { copyToClipboard, waitForSeconds } from 'utils'
-import { IPassword, usePasswords } from 'hooks/usePasswords'
+import { IPassword, usePasswords } from 'hooks/use-passwords'
 
 interface IFormData extends Omit<IPassword, 'id'> { }
 

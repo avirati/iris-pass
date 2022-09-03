@@ -6,7 +6,7 @@ import { LockScreen } from 'components/lock-screen';
 import { Dashboard } from 'views/dashboard'
 import { PasswordForm } from 'views/password-form';
 import { ToastProvider } from 'shared-components'
-import { UsePasswordProvider } from 'hooks/usePasswords';
+import { UsePasswordProvider } from 'hooks/use-passwords';
 
 export const App: React.FC = () => {
   return (

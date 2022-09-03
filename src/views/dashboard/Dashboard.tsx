@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { ContentContainer } from 'components/content-container'
-import { usePasswords } from 'hooks/usePasswords'
+import { usePasswords } from 'hooks/use-passwords'
 import { PasswordCard } from 'components/password-card'
 
 export const Dashboard: React.FC = () => {

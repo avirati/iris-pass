@@ -1,7 +1,12 @@
 import { ContentContainer } from 'components/content-container'
 import React from 'react'
 
-import { Button, Form, PasswordField, CSS } from 'shared-components'
+import { Button, Form, PasswordField, CSS, ValidationError, toast } from 'shared-components'
+
+interface IFormData {
+  password: string
+  confirmPassword: string
+}
 
 const passwordFieldCSS: CSS = {
   'input, input:focus, input:active': {
@@ -16,35 +21,50 @@ const passwordFieldCSS: CSS = {
 }
 
 export const MasterPasswordForm: React.FC = () => {
+  const onSubmit = ({ password, confirmPassword }: IFormData) => {
+    if (password === confirmPassword) {
+      console.log(password)
+    } else {
+      toast.error('Passwords do not match')
+    }
+  }
   return (
     <ContentContainer css={{ width: '100%', '@sm': { width: '300px' } }}>
-      <Form onSubmit={(data) => console.log(data)}>
-        <PasswordField
-          name="password"
-          placeholder="Enter Master Password"
-          label=""
-          css={passwordFieldCSS}
-        />
-        <PasswordField
-          name="confirmPassword"
-          placeholder="Repeat Master Password"
-          label=""
-          css={passwordFieldCSS}
-        />
-        <Button
-          type="submit"
-          css={{
-            width: '100%',
-            bg: 'transparent',
-            border: '1px solid $tonal200',
-            color: '$tonal200',
-            mt: '$4'
-          }}
-          theme="neutral"
-        >
-          Submit
-        </Button>
-      </Form>
+      <Form onSubmit={(data) => onSubmit(data)} render={() => {
+        return (
+          <>
+            <PasswordField
+              name="password"
+              placeholder="Enter Master Password"
+              label=""
+              required
+              css={passwordFieldCSS}
+            />
+            <PasswordField
+              name="confirmPassword"
+              placeholder="Repeat Master Password"
+              label=""
+              required
+              css={passwordFieldCSS}
+            />
+            <Button
+              type="submit"
+              css={{
+                width: '100%',
+                mt: '$4',
+                '&, &:hover, &:active, &:focus': {
+                  bg: 'transparent !important',
+                  border: '1px solid $tonal200 !important',
+                  color: '$tonal200 !important',
+                }
+              }}
+              theme="neutral"
+            >
+              Submit
+            </Button>
+          </>
+        )
+      }}/>
     </ContentContainer>
   )
 }

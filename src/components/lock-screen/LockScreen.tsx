@@ -27,7 +27,7 @@ export const LockScreen: React.FC = () => {
       bottom: 0,
       left: 0,
       right: 0,
-      zIndex: 2147483648,
+      zIndex: 9999,
       flexDirection: 'column'
     }}>
       <Flex css={{

@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 
 import { Category } from 'globalConstants'
-import { IPassword } from 'hooks/usePasswords'
+import { IPassword } from 'hooks/use-passwords'
 
 import { PasswordCard } from './PasswordCard'
 
