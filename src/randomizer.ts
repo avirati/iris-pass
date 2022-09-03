@@ -5,6 +5,7 @@ import {
   SYMBOLS,
 } from 'globalConstants';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const knuthShuffle = require('knuth-shuffle-seeded');
 
 export interface IRandomizerConfig {

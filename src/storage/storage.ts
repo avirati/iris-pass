@@ -15,7 +15,7 @@ export class Storage {
   }
 
   public async getItems<T>(): Promise<Record<string, T>> {
-    return localForage.getItems()
+    return this.store.getItems()
   }
 
   public async getItemsArray<T>(): Promise<T[]> {
@@ -23,15 +23,19 @@ export class Storage {
     return Object.values(dictionary)
   }
 
-  public getItem<T>(key: string): Promise<T | null> {
-    return localForage.getItem(key)
+  public async getItem<T>(key: string): Promise<T | null> {
+    return this.store.getItem(key)
   }
 
-  public setItem<T>(key: string, value: T) {
-    return localForage.setItem(key, value)
+  public async setItem<T>(key: string, value: T) {
+    return this.store.setItem(key, value)
   }
 
-  public removeItem(key: string) {
-    return localForage.removeItem(key)
+  public async removeItem(key: string) {
+    return this.store.removeItem(key)
+  }
+
+  public async hasItem(key: string) {
+    return Boolean(await this.getItem(key))
   }
 }

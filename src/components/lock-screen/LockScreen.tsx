@@ -1,24 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Lock } from '@atom-learning/icons'
 
-import { Flex, ActionIcon, Icon, keyframes, Heading } from 'shared-components'
+import { Flex, Icon, keyframes, Heading } from 'shared-components'
+import { useMasterPassword } from 'hooks/use-master-password'
 
 import { MasterPasswordForm } from './MasterPasswordForm'
 
 const unlockAnimation = (direction: -1 | 1) => keyframes({
   '0%': { transform: 'translateY(0)' },
   '80%': { transform: `translateY(${30 * direction}%)` },
-  '100%': { transform: `translateY(${110 * direction}%)` }
+  '100%': { transform: `translateY(${120 * direction}%)` }
 })
 
 const rotateAnimation = keyframes({
   '0%': { transform: 'rotate(0deg)' },
-  '70%': { transform: 'rotate(360deg)' },
-  '100%': { transform: 'rotate(720deg)' }
+  '100%': { transform: 'rotate(360deg)' }
 })
 
 export const LockScreen: React.FC = () => {
   const [shouldUnlock, setShouldUnlock] = useState<boolean>(false)
+  const { masterPassword } = useMasterPassword()
+
+  useEffect(() => {
+    setShouldUnlock(Boolean(masterPassword))
+  }, [masterPassword])
 
   return (
     <Flex css={{
@@ -57,27 +62,25 @@ export const LockScreen: React.FC = () => {
         animationDelay: '1s',
         borderTop: '1px solid $tonal100'
       }}>
-        <ActionIcon
-          label='lock'
-          size='xl'
+        <Icon
+          is={Lock}
+          size='lg'
           css={{
             border: '1px solid $tonal100',
             borderRadius: '$round',
             color: '$tonal100',
-            top: '-24px',
+            top: '-49px',
             position: 'absolute',
             bg: '$tonal600',
             outline: 'none',
+            p: '$5',
             animation: shouldUnlock ? `${rotateAnimation} 1s` : 'none',
             '&:hover, &:active, &:focus': {
               color: '$tonal100 !important',
               bg: '$tonal600 !important',
             }
           }}
-          onClick={() => setShouldUnlock(true)}
-        >
-          <Icon is={Lock} />
-        </ActionIcon>
+        />
         <MasterPasswordForm />
       </Flex>
     </Flex>

@@ -9,7 +9,7 @@ import { generateRandomPassword } from 'randomizer'
 import { copyToClipboard, waitForSeconds } from 'utils'
 import { IPassword, usePasswords } from 'hooks/use-passwords'
 
-interface IFormData extends Omit<IPassword, 'id'> { }
+type IFormData = Omit<IPassword, 'id'>
 
 export const PasswordForm: React.FC = () => {
   const [fetchedPassword, setFetchedPassword] = useState<Optional<IPassword>>(null)
@@ -27,7 +27,7 @@ export const PasswordForm: React.FC = () => {
   const { addPassword, getPassword, updatePassword } = usePasswords()
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
-  const isAddMode = !Boolean(id)
+  const isAddMode = !id
 
   useEffect(() => {
     const password = generateRandomPassword({

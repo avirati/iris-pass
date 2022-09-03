@@ -1,0 +1,1 @@
+export { useMasterPassword } from './useMasterPassword'

@@ -11,7 +11,7 @@ export enum Category {
   SOCIAL_MEDIA    = 'Social Media',
   TECH            = 'Tech',
   TRAVEL          = 'Travel',
-};
+}
 
 export const categories = [
   Category.BUSINESS,
@@ -26,9 +26,9 @@ export const categories = [
   Category.SOCIAL_MEDIA,
   Category.TECH,
   Category.TRAVEL,
-];
+]
 
-export const LETTERS_LOWERCASE = 'abcdefghijklmnopqrstuvwxyz'.split('');
-export const LETTERS_UPPERCASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-export const NUMBERS = '0123456789'.split('');
-export const SYMBOLS = '!@#$%^&*()-_+=~[]{};:"\'/<>/?'.split('');
+export const LETTERS_LOWERCASE = 'abcdefghijklmnopqrstuvwxyz'.split('')
+export const LETTERS_UPPERCASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+export const NUMBERS = '0123456789'.split('')
+export const SYMBOLS = '!@#$%^&*()-_+=~[]{};:"\'/<>/?'.split('')
