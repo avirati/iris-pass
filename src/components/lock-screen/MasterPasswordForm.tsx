@@ -1,6 +1,7 @@
-import { ContentContainer } from 'components/content-container'
 import React from 'react'
 
+import { ContentContainer } from 'components/content-container'
+import { useMasterPassword } from 'hooks/use-master-password'
 import { Button, Form, PasswordField, CSS, ValidationError, toast } from 'shared-components'
 
 interface IFormData {
@@ -21,13 +22,16 @@ const passwordFieldCSS: CSS = {
 }
 
 export const MasterPasswordForm: React.FC = () => {
+  const { setMasterPassword } = useMasterPassword()
+
   const onSubmit = ({ password, confirmPassword }: IFormData) => {
     if (password === confirmPassword) {
-      console.log(password)
+      setMasterPassword(password)
     } else {
       toast.error('Passwords do not match')
     }
   }
+
   return (
     <ContentContainer css={{ width: '100%', '@sm': { width: '300px' } }}>
       <Form onSubmit={(data) => onSubmit(data)} render={() => {

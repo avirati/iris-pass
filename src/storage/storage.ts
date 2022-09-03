@@ -1,19 +1,37 @@
 import localForage from 'localforage'
 import 'localforage-getitems'
 
-localForage.config({
-  driver      : localForage.INDEXEDDB,
-  name        : 'password-manager',
-  version     : 1.0,
-  storeName   : 'password-manager-store',
-  description : 'Password Manager DB Store'
-});
+export class Storage {
+  private store: LocalForage
 
-export const getItems = <T>(): Promise<Record<string, T>> => localForage.getItems() || {}
-export const getItemsArray = async <T>(): Promise<T[]> => {
-  const dictionary = await getItems<T>()
-  return Object.values(dictionary)
+  constructor(storeName: string) {
+    this.store = localForage.createInstance({
+      driver      : localForage.INDEXEDDB,
+      name        : 'password-manager',
+      version     : 1.0,
+      storeName   : storeName,
+      description : 'Password Manager DB Store'
+    })
+  }
+
+  public async getItems<T>(): Promise<Record<string, T>> {
+    return localForage.getItems()
+  }
+
+  public async getItemsArray<T>(): Promise<T[]> {
+    const dictionary = await this.getItems<T>()
+    return Object.values(dictionary)
+  }
+
+  public getItem<T>(key: string): Promise<T | null> {
+    return localForage.getItem(key)
+  }
+
+  public setItem<T>(key: string, value: T) {
+    return localForage.setItem(key, value)
+  }
+
+  public removeItem(key: string) {
+    return localForage.removeItem(key)
+  }
 }
-export const getItem = <T>(key: string): Promise<T | null> => localForage.getItem(key)
-export const setItem = <T>(key: string, value: T) => localForage.setItem(key, value)
-export const removeItem = (key: string) => localForage.removeItem(key)
