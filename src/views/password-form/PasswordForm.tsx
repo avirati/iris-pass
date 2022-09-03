@@ -3,7 +3,18 @@ import { Copy, Ok, Eye, EyeClosed } from '@atom-learning/icons'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { ContentContainer } from 'components/content-container'
-import { ActionIcon, Icon, Button, Form, Flex, InputField, SliderField, CheckboxField, SelectField } from 'shared-components'
+import {
+  ActionIcon,
+  Icon,
+  Button,
+  Form,
+  Flex,
+  InputField,
+  SliderField,
+  CheckboxField,
+  SelectField,
+  useAlert
+} from 'shared-components'
 import { categories } from 'globalConstants'
 import { generateRandomPassword } from 'randomizer'
 import { copyToClipboard, waitForSeconds } from 'utils'
@@ -24,9 +35,10 @@ export const PasswordForm: React.FC = () => {
   const [useSymbols, setUseSymbols] = useState<boolean>(false)
   const [passwordRevealed, setPasswordRevealed] = useState<boolean>(false)
 
-  const { addPassword, getPassword, updatePassword } = usePasswords()
+  const { addPassword, getPassword, updatePassword, removePassword } = usePasswords()
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
+  const { showAlert } = useAlert()
   const isAddMode = !id
 
   useEffect(() => {
@@ -56,6 +68,22 @@ export const PasswordForm: React.FC = () => {
       setPasswordCopied(false)
     }
   }, [generatedPassword, setPasswordCopied])
+
+  const onDeletePasswordClicked = () => {
+    showAlert({
+      id: 'delete-password-confirmation',
+      title: 'Are you sure you want to delete this password?',
+      description: 'This will remove the saved password permanently from this device',
+      confirmActionText: 'Delete password',
+      cancelActionText: 'Cancel',
+      onAction: async (result) => {
+        if (result && fetchedPassword) {
+          await removePassword(fetchedPassword.id)
+          history.replace('/')
+        }
+      }
+    })
+  }
 
   const onSubmit = useCallback(async (formData: IFormData) => {
     if (isAddMode) {
@@ -183,7 +211,10 @@ export const PasswordForm: React.FC = () => {
                 checked={useSymbols}
                 onCheckedChange={(checked) => setUseSymbols(checked as boolean)}
               />
-              <Button type="submit">{isAddMode ? 'Add' : 'Update'}</Button>
+              <Flex css={{ gap: '$4', justifyContent: 'space-between' }}>
+                {!isAddMode && <Button theme="danger" onClick={onDeletePasswordClicked}>Delete</Button>}
+                <Button type="submit">{isAddMode ? 'Add' : 'Update'}</Button>
+              </Flex>
             </>
           )
         }}
