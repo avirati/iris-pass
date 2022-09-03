@@ -2,6 +2,7 @@ import React from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom'
 
 import { Header } from 'components/header';
+import { LockScreen } from 'components/lock-screen';
 import { Dashboard } from 'views/dashboard'
 import { PasswordForm } from 'views/password-form';
 import { ToastProvider } from 'shared-components'
@@ -11,6 +12,7 @@ export const App: React.FC = () => {
   return (
     <ToastProvider>
       <UsePasswordProvider>
+        <LockScreen />
         <Header />
         <HashRouter>
           <Switch>
