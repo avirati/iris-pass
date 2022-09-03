@@ -18,12 +18,20 @@ const rotateAnimation = keyframes({
 })
 
 export const LockScreen: React.FC = () => {
+  const [isVisible, setIsVisible] = useState<boolean>(true)
   const [shouldUnlock, setShouldUnlock] = useState<boolean>(false)
   const { masterPassword } = useMasterPassword()
 
   useEffect(() => {
     setShouldUnlock(Boolean(masterPassword))
+    setTimeout(() => {
+      setIsVisible(false)
+    }, 2000)
   }, [masterPassword])
+
+  if (!isVisible) {
+    return null
+  }
 
   return (
     <Flex css={{
