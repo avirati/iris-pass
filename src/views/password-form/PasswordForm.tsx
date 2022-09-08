@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Copy, Ok, Eye, EyeClosed } from '@atom-learning/icons'
+import { Copy, Ok, Eye, EyeClosed, Edit, Bin, Plus } from '@atom-learning/icons'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { ContentContainer } from 'components/content-container'
@@ -13,6 +13,7 @@ import {
   SliderField,
   CheckboxField,
   SelectField,
+  Link,
   useAlert,
   toast
 } from 'shared-components'
@@ -25,8 +26,13 @@ import { DUMMY_PASS } from './constants'
 
 type IFormData = Omit<IPassword, 'id'>
 
-export const PasswordForm: React.FC = () => {
-  const [isEditMode, setIsEditMode] = useState<boolean>(false)
+interface IPasswordFormProps {
+  mode: 'add' | 'edit' | 'view'
+}
+
+export const PasswordForm: React.FC<IPasswordFormProps> = ({ mode }) => {
+  const [passwordFieldValue, setPasswordFieldValue] = useState<string>()
+  const [passwordFocus, setPasswordFocus] = useState<boolean>(false)
   const [fetchedPassword, setFetchedPassword] = useState<Optional<IPassword>>(null)
   const [revealedPassword, setRevealedPassword] = useState<string>(DUMMY_PASS)
 
@@ -44,12 +50,12 @@ export const PasswordForm: React.FC = () => {
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
   const { showAlert } = useAlert()
-  const isAddMode = !id
-  const isViewMode = Boolean(id)
 
   useEffect(() => {
-    if (!isEditMode || !isAddMode) return
+    if (mode === 'view') return
 
+    setPasswordFieldValue(undefined)
+    setRevealedPassword('')
     const password = generateRandomPassword({
       passwordLength,
       useLetters,
@@ -64,8 +70,7 @@ export const PasswordForm: React.FC = () => {
     useNumbers,
     useUppercaseChars,
     useSymbols,
-    isEditMode,
-    isAddMode,
+    mode,
 
     setGeneratedPassword
   ])
@@ -102,19 +107,20 @@ export const PasswordForm: React.FC = () => {
     })
   }
 
-  const onSubmit = useCallback(async (formData: IFormData) => {
-    if (isAddMode) {
-      await addPassword(formData)
-    } else {
-      await updatePassword({
-        ...formData,
-        id
-      })
-    }
+  const onAddPassword = async (formData: IFormData) => {
+    await addPassword(formData)
     history.push('/#/')
-  }, [addPassword, history, id, isAddMode, updatePassword])
+  }
 
-  const togglePasswordVisibility = useCallback(async () => {
+  const onEditPassword = async (formData: IFormData) => {
+    await updatePassword({
+      ...formData,
+      id
+    })
+    history.replace(`/#/password/view/${id}`)
+  }
+
+  const togglePasswordVisibility = async () => {
     if (passwordRevealed) {
       setRevealedPassword(DUMMY_PASS)
     } else {
@@ -124,10 +130,10 @@ export const PasswordForm: React.FC = () => {
       }
     }
     setPasswordRevealed(!passwordRevealed)
-  }, [fetchedPassword, getPassword, passwordRevealed])
+  }
 
   useEffect(() => {
-    if (!isAddMode && !fetchedPassword) {
+    if (mode !== 'add' && !fetchedPassword) {
       getPasswordEntry(id)
         .then((password) => {
           if (password) {
@@ -139,6 +145,29 @@ export const PasswordForm: React.FC = () => {
     }
     // eslint-disable-next-line
   }, [])
+
+  let onSubmit: (formData: IFormData) => Promise<void>;
+  switch (mode) {
+    case 'add':
+      onSubmit = onAddPassword
+      break
+    case 'edit':
+      onSubmit = onEditPassword
+      break
+    default:
+      onSubmit = () => Promise.resolve()
+  }
+
+  const getPasswordValue = () => {
+    switch(mode) {
+      case 'view':
+        return passwordRevealed ? revealedPassword : DUMMY_PASS
+      case 'edit':
+        return passwordRevealed ? (revealedPassword || generatedPassword) : DUMMY_PASS
+      case 'add':
+        return (passwordFieldValue || generatedPassword)
+    }
+  }
 
   return (
     <ContentContainer>
@@ -169,33 +198,23 @@ export const PasswordForm: React.FC = () => {
                 defaultValue={fetchedPassword?.login}
               />
               <Flex css={{ alignItems: 'flex-end', gap: '$2' }}>
-                {
-                  isAddMode ? (
-                    <InputField
-                      label='Password'
-                      name='password'
-                      placeholder='Enter or Generate'
-                      autoComplete='off'
-                      defaultValue={generatedPassword}
-                      css={{ flexGrow: 1 }}
-                    />
-                  ) : (
-                    <InputField
-                      label='Password'
-                      name='password'
-                      type={passwordRevealed ? 'text' : 'password'}
-                      placeholder='Enter or Generate'
-                      autoComplete='off'
-                      defaultValue={revealedPassword}
-                      css={{ flexGrow: 1 }}
-                    />
-                  )
-                }
+                <InputField
+                  label='Password'
+                  name='password'
+                  type={mode !== 'add' ? (passwordRevealed ? 'text' : 'password') : 'text'}
+                  placeholder='Enter or Generate'
+                  autoComplete='off'
+                  value={passwordFocus ? passwordFieldValue : getPasswordValue()}
+                  onFocus={() => setPasswordFocus(true)}
+                  onBlur={() => setPasswordFocus(false)}
+                  onChange={(event) => setPasswordFieldValue(event.target.value)}
+                  css={{ flexGrow: 1 }}
+                />
                 <ActionIcon label='copy-password' appearance='outline' size='lg' onClick={copyPasswordToClipboard}>
                   <Icon is={passwordCopied ? Ok : Copy} />
                 </ActionIcon>
                 {
-                  !isAddMode && (
+                  mode !== 'add' && (
                     <ActionIcon label={passwordRevealed ? 'hide-password' : 'reveal-password'} appearance='outline' size='lg' onClick={togglePasswordVisibility}>
                       <Icon is={passwordRevealed ? Eye : EyeClosed} />
                     </ActionIcon>
@@ -203,7 +222,7 @@ export const PasswordForm: React.FC = () => {
                 }
               </Flex>
               {
-                (isEditMode || isAddMode) && (
+                (mode !== 'view') && (
                   <>
                     <SliderField
                       label={`Password Length (${passwordLength})`}
@@ -242,11 +261,31 @@ export const PasswordForm: React.FC = () => {
                   </>
                 )
               }
-              <Flex css={{ gap: '$4', justifyContent: 'space-between' }}>
-                {isViewMode && isEditMode && <Button theme="danger" onClick={onDeletePasswordClicked}>Delete</Button>}
-                {isAddMode && <Button type="submit">Add</Button>}
-                {!isAddMode && isEditMode && <Button type="submit">Update</Button>}
-                {!isAddMode && !isEditMode && <Button onClick={() => setIsEditMode(true)} css={{ ml: 'auto' }}>Edit</Button>}
+              <Flex css={{ justifyContent: 'space-between' }}>
+                { mode === 'view' && (
+                  <>
+                    <Link as={Button} href={`/#/password/edit/${id}`}>
+                      <Icon is={Edit}/>
+                      Edit
+                    </Link>
+                    <Button theme="danger" onClick={onDeletePasswordClicked}>
+                      <Icon is={Bin}/>
+                      Delete
+                    </Button>
+                  </>
+                )}
+                { mode === 'add' && (
+                  <Button type="submit">
+                    <Icon is={Plus}/>
+                    Add
+                  </Button>
+                )}
+                { mode === 'edit' && (
+                  <Button type="submit">
+                    <Icon is={Ok}/>
+                    Update
+                  </Button>
+                )}
               </Flex>
             </>
           )

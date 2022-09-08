@@ -23,7 +23,7 @@ export const PasswordCard: React.FC<IPasswordCard> = ({ password }) => {
           textDecoration: 'none',
         }
       }}
-      href={`/#/password/update/${id}`}
+      href={`/#/password/view/${id}`}
     >
       <Flex css={{ minWidth: '$6', minHeight: '$6', border: '1px solid $primary', borderRadius: '$0', alignItems: 'center', justifyContent: 'center' }}>
         <Heading

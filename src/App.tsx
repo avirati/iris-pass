@@ -19,8 +19,9 @@ export const App: React.FC = () => {
             <Header />
             <HashRouter>
               <Switch>
-                <Route path="/password/add" component={PasswordForm}/>
-                <Route path="/password/update/:id" component={PasswordForm}/>
+                <Route path="/password/add" render={() => <PasswordForm mode='add'/>}/>
+                <Route path="/password/edit/:id" render={() => <PasswordForm mode='edit'/>}/>
+                <Route path="/password/view/:id" render={() => <PasswordForm mode='view'/>}/>
                 <Route path="/" component={Dashboard}/>
               </Switch>
             </HashRouter>
