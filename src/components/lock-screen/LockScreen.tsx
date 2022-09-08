@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Lock } from '@atom-learning/icons'
 
-import { Flex, Icon, keyframes, Heading } from 'shared-components'
+import { Box, Flex, Icon, keyframes, Heading } from 'shared-components'
 import { useMasterPassword } from 'hooks/use-master-password'
 import { waitForSeconds } from 'utils'
 
@@ -15,7 +15,7 @@ const unlockAnimation = (direction: -1 | 1) => keyframes({
 
 const rotateAnimation = keyframes({
   '0%': { transform: 'rotate(0deg)' },
-  '100%': { transform: 'rotate(360deg)' }
+  '100%': { transform: 'rotate(180deg)' }
 })
 
 export const LockScreen: React.FC = () => {
@@ -70,25 +70,29 @@ export const LockScreen: React.FC = () => {
         animationDelay: '1s',
         borderTop: '1px solid $tonal100'
       }}>
-        <Icon
-          is={Lock}
-          size='lg'
-          css={{
-            border: '1px solid $tonal100',
-            borderRadius: '$round',
-            color: '$tonal100',
-            top: '-49px',
-            position: 'absolute',
-            bg: '$tonal600',
-            outline: 'none',
-            p: '$5',
-            animation: shouldUnlock ? `${rotateAnimation} 1s` : 'none',
-            '&:hover, &:active, &:focus': {
-              color: '$tonal100 !important',
-              bg: '$tonal600 !important',
-            }
-          }}
-        />
+        <Flex css={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          border: '1px solid $tonal100',
+          borderRadius: '$round',
+          color: '$tonal100',
+          top: '-50px',
+          position: 'absolute',
+          bg: '$tonal600',
+          outline: 'none',
+          p: '33px 46px',
+          animation: shouldUnlock ? `${rotateAnimation} 0.5s` : 'none',
+          '&:hover, &:active, &:focus': {
+            color: '$tonal100 !important',
+            bg: '$tonal600 !important',
+          }
+        }}>
+          <Box css={{
+            width: '5px',
+            height: '30px',
+            bg: '$tonal100'
+          }}/>
+        </Flex>
         <MasterPasswordForm />
       </Flex>
     </Flex>

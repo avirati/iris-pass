@@ -21,11 +21,14 @@ import { generateRandomPassword } from 'randomizer'
 import { copyToClipboard, waitForSeconds } from 'utils'
 import { IPassword, usePasswords } from 'hooks/use-passwords'
 
+import { DUMMY_PASS } from './constants'
+
 type IFormData = Omit<IPassword, 'id'>
 
 export const PasswordForm: React.FC = () => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [fetchedPassword, setFetchedPassword] = useState<Optional<IPassword>>(null)
+  const [revealedPassword, setRevealedPassword] = useState<string>(DUMMY_PASS)
 
   const [generatedPassword, setGeneratedPassword] = useState<string>('')
   const [passwordCopied, setPasswordCopied] = useState<boolean>(false)
@@ -37,7 +40,7 @@ export const PasswordForm: React.FC = () => {
   const [useSymbols, setUseSymbols] = useState<boolean>(false)
   const [passwordRevealed, setPasswordRevealed] = useState<boolean>(false)
 
-  const { addPassword, getPassword, updatePassword, removePassword, copyPassword } = usePasswords()
+  const { addPassword, getPassword, getPasswordEntry, updatePassword, removePassword, copyPassword } = usePasswords()
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
   const { showAlert } = useAlert()
@@ -45,7 +48,7 @@ export const PasswordForm: React.FC = () => {
   const isViewMode = Boolean(id)
 
   useEffect(() => {
-    if (!isEditMode) return
+    if (!isEditMode || !isAddMode) return
 
     const password = generateRandomPassword({
       passwordLength,
@@ -62,6 +65,7 @@ export const PasswordForm: React.FC = () => {
     useUppercaseChars,
     useSymbols,
     isEditMode,
+    isAddMode,
 
     setGeneratedPassword
   ])
@@ -110,13 +114,21 @@ export const PasswordForm: React.FC = () => {
     history.push('/#/')
   }, [addPassword, history, id, isAddMode, updatePassword])
 
-  const togglePasswordVisibility = useCallback(() => {
+  const togglePasswordVisibility = useCallback(async () => {
+    if (passwordRevealed) {
+      setRevealedPassword(DUMMY_PASS)
+    } else {
+      if (fetchedPassword) {
+        const password = await getPassword(fetchedPassword.id)
+        setRevealedPassword(password as string)
+      }
+    }
     setPasswordRevealed(!passwordRevealed)
-  }, [passwordRevealed, setPasswordRevealed])
+  }, [fetchedPassword, getPassword, passwordRevealed])
 
   useEffect(() => {
     if (!isAddMode && !fetchedPassword) {
-      getPassword(id)
+      getPasswordEntry(id)
         .then((password) => {
           if (password) {
             setFetchedPassword(password)
@@ -174,7 +186,7 @@ export const PasswordForm: React.FC = () => {
                       type={passwordRevealed ? 'text' : 'password'}
                       placeholder='Enter or Generate'
                       autoComplete='off'
-                      defaultValue="NOT_THE_PASSWORD_YOU_ARE_LOOKING_FOR_:)"
+                      defaultValue={revealedPassword}
                       css={{ flexGrow: 1 }}
                     />
                   )
@@ -191,7 +203,7 @@ export const PasswordForm: React.FC = () => {
                 }
               </Flex>
               {
-                isEditMode && (
+                (isEditMode || isAddMode) && (
                   <>
                     <SliderField
                       label={`Password Length (${passwordLength})`}
@@ -234,7 +246,7 @@ export const PasswordForm: React.FC = () => {
                 {isViewMode && isEditMode && <Button theme="danger" onClick={onDeletePasswordClicked}>Delete</Button>}
                 {isAddMode && <Button type="submit">Add</Button>}
                 {!isAddMode && isEditMode && <Button type="submit">Update</Button>}
-                {!isEditMode && <Button onClick={() => setIsEditMode(true)} css={{ ml: 'auto' }}>Edit</Button>}
+                {!isAddMode && !isEditMode && <Button onClick={() => setIsEditMode(true)} css={{ ml: 'auto' }}>Edit</Button>}
               </Flex>
             </>
           )

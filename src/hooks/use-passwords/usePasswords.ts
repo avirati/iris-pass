@@ -5,18 +5,20 @@ import { UsePasswordContext } from './usePasswords.context'
 export const usePasswords = () => {
   const {
     passwords,
+    getPassword,
     copyPassword,
     addPassword,
-    getPassword,
+    getPasswordEntry,
     removePassword,
     updatePassword,
   } = useContext(UsePasswordContext)
 
   return {
     passwords,
+    getPassword,
     copyPassword,
     addPassword,
-    getPassword,
+    getPasswordEntry,
     removePassword,
     updatePassword
   }

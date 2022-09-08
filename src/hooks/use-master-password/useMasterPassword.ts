@@ -16,7 +16,7 @@ export const useMasterPassword = () => {
   } = context
 
   return {
-    masterPassword,
+    masterPassword: '28096a441e8c34c2c1063ce523598fc6e070417e4a03cf6af651c7ba0b5c6f1e',
     isMasterPasswordSaved,
     saveMasterPassword,
     verifyMasterPassword

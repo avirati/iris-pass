@@ -11,11 +11,12 @@ import { copyToClipboard } from 'utils'
 
 export const UsePasswordContext = createContext<IUsePasswordContext>({
   passwords: [],
+  getPassword: () => Promise.resolve(null),
   copyPassword: () => Promise.resolve(),
   addPassword: () => Promise.resolve(),
   removePassword: () => Promise.resolve(),
   updatePassword: () => Promise.resolve(),
-  getPassword: () => Promise.resolve(null)
+  getPasswordEntry: () => Promise.resolve(null)
 })
 
 const store = new Storage('password-manager')
@@ -72,7 +73,7 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({ 
     }
   }, [refreshCounter, setRefreshCounter])
 
-  const getPassword: IUsePasswordContext['getPassword'] = useCallback(async (id) => {
+  const getPasswordEntry: IUsePasswordContext['getPasswordEntry'] = useCallback(async (id) => {
     try {
       const password = await store.getItem<IPassword>(id)
       return password
@@ -83,6 +84,21 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({ 
     }
   }, [])
 
+  const getPassword: IUsePasswordContext['getPassword'] = useCallback(async (id) => {
+    try {
+      const password = await store.getItem<IPassword>(id)
+      if (password) {
+        return CryptoUtil.decrypt(password.password, masterPassword)
+      } else {
+        throw new Error('Fetched password is falsy')
+      }
+    } catch (error) {
+      console.error(error)
+      toast.error('Unable to fetch password data')
+      return null
+    }
+  }, [masterPassword])
+
   const copyPassword: IUsePasswordContext['copyPassword'] = useCallback(async (id) => {
     try {
       const password = await store.getItem<IPassword>(id)
@@ -90,6 +106,8 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({ 
         const decryptedPassword = CryptoUtil.decrypt(password.password, masterPassword)
         await copyToClipboard(decryptedPassword)
         toast.success('Copied to clipboard')
+      } else {
+        throw new Error('Fetched password is falsy')
       }
     } catch (error) {
       console.error(error)
@@ -107,11 +125,12 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({ 
     <UsePasswordContext.Provider
       value={{
         passwords,
+        getPassword,
         copyPassword,
         addPassword,
         removePassword,
         updatePassword,
-        getPassword,
+        getPasswordEntry,
       }
       }>
       {children}
