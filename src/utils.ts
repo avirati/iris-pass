@@ -1,9 +1,11 @@
 interface IWebsite {
-  heroLetter: string
-  hostname: string
+  heroLetter: string;
+  hostname: string;
 }
 
-export const copyToClipboard = async (content: string) => {
+export const copyToClipboard = async (content: Optional<string>) => {
+  if (!content) return;
+
   if (navigator.clipboard) {
     await navigator.clipboard.writeText(content);
   } else {
@@ -23,26 +25,26 @@ export const copyToClipboard = async (content: string) => {
 
     document.body.removeChild(textArea);
   }
-}
+};
 
 export const waitForSeconds = (durationInSeconds: number): Promise<void> =>
-  new Promise(
-    (resolve) => setTimeout(() => resolve(), durationInSeconds * 1000),
+  new Promise((resolve) =>
+    setTimeout(() => resolve(), durationInSeconds * 1000)
   );
 
 export const parseWebsite = (website: string): IWebsite => {
   const out: IWebsite = {
     heroLetter: '',
-    hostname: ''
-  }
+    hostname: '',
+  };
   try {
-    const url = new URL(website)
-    out.heroLetter = url.hostname[0]
-    out.hostname = url.hostname
+    const url = new URL(website);
+    out.heroLetter = url.hostname[0];
+    out.hostname = url.hostname;
   } catch (error) {
-    out.heroLetter = website[0]
-    out.hostname = website
+    out.heroLetter = website[0];
+    out.hostname = website;
   }
 
-  return out
-}
+  return out;
+};
