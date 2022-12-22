@@ -1,22 +1,25 @@
-import React from 'react'
+import React from 'react';
 
-import { CSS, Flex } from 'shared-components'
+import { CSS, Flex } from 'shared-components';
 
 interface IContentContainer {
-  children?: React.ReactNode
-  css?: CSS
+  children?: React.ReactNode;
+  css?: CSS;
 }
 
-export const ContentContainer: React.FC<IContentContainer> = ({ children, css }) => {
+export const ContentContainer: React.FC<IContentContainer> = ({
+  children,
+  css,
+}) => {
   return (
     <Flex
       css={{
         p: '$5',
         flexDirection: 'column',
-        ...css
+        ...css,
       }}
     >
       {children}
     </Flex>
-  )
-}
+  );
+};

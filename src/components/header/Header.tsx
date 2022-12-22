@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import { Flex, Link } from 'shared-components'
-import { AddEntryButton } from 'components/add-entry-button'
+import { Flex, Link } from 'shared-components';
+import { AddEntryButton } from 'components/add-entry-button';
 
 export const Header: React.FC = () => {
   return (
@@ -13,24 +13,24 @@ export const Header: React.FC = () => {
         px: '$5',
         justifyContent: 'space-between',
         position: 'sticky',
-        top: 0
+        top: 0,
       }}
     >
       <Link
-        href="/#/"
-        size="lg"
+        href='/#/'
+        size='lg'
         css={{
           color: '$tonal100',
           textTransform: 'uppercase',
           '&:hover, &:active, &:focus': {
             color: '$tonal100',
             textDecoration: 'none',
-          }
+          },
         }}
       >
         Password Manager
       </Link>
       <AddEntryButton />
     </Flex>
-  )
-}
+  );
+};
