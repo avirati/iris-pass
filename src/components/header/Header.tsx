@@ -1,7 +1,7 @@
 import React from 'react';
+import { LockAlt } from '@atom-learning/icons';
 
-import { Flex, Link } from 'shared-components';
-import { AddEntryButton } from 'components/add-entry-button';
+import { Flex, Icon, Link, Text } from 'shared-components';
 
 export const Header: React.FC = () => {
   return (
@@ -18,19 +18,26 @@ export const Header: React.FC = () => {
     >
       <Link
         href='/#/'
-        size='lg'
         css={{
-          color: '$tonal100',
-          textTransform: 'uppercase',
+          display: 'flex',
+          alignItems: 'center',
           '&:hover, &:active, &:focus': {
-            color: '$tonal100',
             textDecoration: 'none',
           },
         }}
       >
-        Password Manager
+        <Icon is={LockAlt} css={{ color: '$tonal100', mr: '$2' }} />
+        <Text
+          as='span'
+          size='lg'
+          css={{
+            color: '$tonal100',
+            textTransform: 'uppercase',
+          }}
+        >
+          Password Manager
+        </Text>
       </Link>
-      <AddEntryButton />
     </Flex>
   );
 };
