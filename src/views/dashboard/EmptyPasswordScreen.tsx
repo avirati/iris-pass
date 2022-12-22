@@ -1,22 +1,22 @@
-import React from 'react'
+import React from 'react';
+import { Dashboard } from '@atom-learning/icons';
 
-import { Flex, Heading } from 'shared-components'
+import { EmptyState, Icon } from 'shared-components';
 
 export const EmptyPasswordScreen: React.FC = () => {
   return (
-    <Flex css={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-      <Heading
-        as="h3"
-        size="sm"
-        css={{
-          color: '$tonal400',
-          textAlign: 'center',
-          textTransform: 'uppercase',
-          fontWeight: 'normal'
-        }}
-      >
-        No Saved Passwords yet :)
-      </Heading>
-    </Flex>
-  )
-}
+    <EmptyState size='sm'>
+      <EmptyState.Image
+        as={Icon}
+        is={Dashboard}
+        size='xl'
+        css={{ color: '$tonal200', my: 'auto' }}
+      />
+      <EmptyState.Title>No passwords found!</EmptyState.Title>
+      <EmptyState.Body>
+        Generate most secure passwords in a click! And sync them across devices
+        :)
+      </EmptyState.Body>
+    </EmptyState>
+  );
+};
