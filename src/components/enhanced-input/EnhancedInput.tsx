@@ -1,10 +1,11 @@
 import React from 'react';
 import { Ok, Copy, Eye, EyeClosed } from '@atom-learning/icons';
 
-import { ActionIcon, Flex, Icon, Input } from 'shared-components';
+import { Flex, Icon } from 'shared-components';
 import { waitForSeconds } from 'utils';
+import { DarkActionIcon, InputField } from 'components/form-fields';
 
-interface IEnhancedInputProps extends React.ComponentProps<typeof Input> {
+interface IEnhancedInputProps extends React.ComponentProps<typeof InputField> {
   visible?: boolean;
   onCopy?: () => void;
   onVisibilityToggle?: () => void;
@@ -14,6 +15,7 @@ export const EnhancedInput: React.FC<IEnhancedInputProps> = ({
   visible,
   onCopy,
   onVisibilityToggle,
+  css,
   ...props
 }) => {
   const [valueCopied, setValueCopied] = React.useState<boolean>(false);
@@ -27,26 +29,28 @@ export const EnhancedInput: React.FC<IEnhancedInputProps> = ({
 
   return (
     <Flex css={{ alignItems: 'flex-end', gap: '$2' }}>
-      <Input {...props} />
+      <InputField css={{ width: '100%', ...css }} {...props} />
       {onCopy && (
-        <ActionIcon
+        <DarkActionIcon
           label='copy-value'
           appearance='outline'
           size='lg'
           onClick={onCopyClicked}
+          css={{ minWidth: '40px' }}
         >
           <Icon is={valueCopied ? Ok : Copy} />
-        </ActionIcon>
+        </DarkActionIcon>
       )}
       {onVisibilityToggle && (
-        <ActionIcon
+        <DarkActionIcon
           label={visible ? 'hide-value' : 'reveal-value'}
           appearance='outline'
           size='lg'
           onClick={onVisibilityToggle}
+          css={{ minWidth: '40px' }}
         >
           <Icon is={visible ? Eye : EyeClosed} />
-        </ActionIcon>
+        </DarkActionIcon>
       )}
     </Flex>
   );

@@ -16,6 +16,9 @@ export const ContentContainer: React.FC<IContentContainer> = ({
       css={{
         p: '$5',
         flexDirection: 'column',
+        height: 'calc(100vh - 128px)',
+        bg: '$tonal500',
+        overflowY: 'auto',
         ...css,
       }}
     >

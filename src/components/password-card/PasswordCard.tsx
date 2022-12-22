@@ -1,16 +1,16 @@
-import React from 'react'
+import React from 'react';
 
-import { IPassword } from 'hooks/use-passwords'
-import { Flex, Heading, Link, Text } from 'shared-components'
-import { parseWebsite } from 'utils'
+import { IPassword } from 'hooks/use-passwords';
+import { Flex, Heading, Link, Text } from 'shared-components';
+import { parseWebsite } from 'utils';
 
 interface IPasswordCard {
-  password: IPassword
+  password: IPassword;
 }
 
 export const PasswordCard: React.FC<IPasswordCard> = ({ password }) => {
-  const { website, login, id } = password
-  const { heroLetter, hostname } = parseWebsite(website)
+  const { website, login, id } = password;
+  const { heroLetter, hostname } = parseWebsite(website);
 
   return (
     <Flex
@@ -21,25 +21,41 @@ export const PasswordCard: React.FC<IPasswordCard> = ({ password }) => {
         '&:hover, &:active, &:focus': {
           color: '$tonal100',
           textDecoration: 'none',
-        }
+        },
       }}
       href={`/#/password/view/${id}`}
     >
-      <Flex css={{ minWidth: '$6', minHeight: '$6', border: '1px solid $primary', borderRadius: '$0', alignItems: 'center', justifyContent: 'center' }}>
+      <Flex
+        css={{
+          minWidth: '$5',
+          minHeight: '$5',
+          border: '1px solid $tonal200',
+          borderRadius: '$0',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         <Heading
-          as="h2"
-          size="lg"
+          as='h2'
+          size='lg'
           css={{
             textTransform: 'uppercase',
-            color: '$primary'
-          }}>
-            {heroLetter}
+            color: '$tonal200',
+          }}
+        >
+          {heroLetter}
         </Heading>
       </Flex>
-      <Flex css={{ flexDirection: 'column', justifyContent: 'center', gap: '$4' }}>
-        <Heading as="h3" size="sm" css={{ color: '$tonal400' }}>{hostname}</Heading>
-        <Text size="sm" css={{ color: '$tonal300' }}>{login}</Text>
+      <Flex
+        css={{ flexDirection: 'column', justifyContent: 'center', gap: '$3' }}
+      >
+        <Heading as='h3' size='md' css={{ color: '$tonal200' }}>
+          {hostname}
+        </Heading>
+        <Text size='sm' css={{ color: '$tonal200' }}>
+          {login}
+        </Text>
       </Flex>
     </Flex>
-  )
-}
+  );
+};

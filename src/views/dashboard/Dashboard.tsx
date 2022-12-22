@@ -11,9 +11,7 @@ export const Dashboard: React.FC = () => {
   const { passwords } = usePasswords();
 
   return (
-    <ContentContainer
-      css={{ gap: '$4', height: 'calc(100vh - 128px)', bg: '$tonal500' }}
-    >
+    <ContentContainer css={{ gap: '$4' }}>
       {passwords.length > 0 ? (
         passwords.map((password) => (
           <PasswordCard password={password} key={password.id} />

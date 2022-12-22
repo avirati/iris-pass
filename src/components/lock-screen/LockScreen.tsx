@@ -59,7 +59,7 @@ export const LockScreen: React.FC = () => {
       >
         <Heading
           css={{
-            color: '$tonal100',
+            color: '$tonal200',
             textTransform: 'uppercase',
           }}
         >
@@ -76,16 +76,16 @@ export const LockScreen: React.FC = () => {
           animation: shouldUnlock ? `${unlockAnimation(1)} 1s` : 'none',
           animationFillMode: 'forwards',
           animationDelay: '1s',
-          borderTop: '1px solid $tonal100',
+          borderTop: '1px solid $tonal200',
         }}
       >
         <Flex
           css={{
             alignItems: 'center',
             justifyContent: 'center',
-            border: '1px solid $tonal100',
+            border: '1px solid $tonal200',
             borderRadius: '$round',
-            color: '$tonal100',
+            color: '$tonal200',
             top: '-50px',
             position: 'absolute',
             bg: '$tonal600',
@@ -93,7 +93,7 @@ export const LockScreen: React.FC = () => {
             p: '33px 46px',
             animation: shouldUnlock ? `${rotateAnimation} 0.5s` : 'none',
             '&:hover, &:active, &:focus': {
-              color: '$tonal100 !important',
+              color: '$tonal200 !important',
               bg: '$tonal600 !important',
             },
           }}
@@ -102,7 +102,7 @@ export const LockScreen: React.FC = () => {
             css={{
               width: '5px',
               height: '30px',
-              bg: '$tonal100',
+              bg: '$tonal200',
             }}
           />
         </Flex>

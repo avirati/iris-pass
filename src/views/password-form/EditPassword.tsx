@@ -1,22 +1,21 @@
-import {
-  ActionIcon,
-  Button,
-  CheckboxField,
-  Flex,
-  Form,
-  Icon,
-  InputField,
-  SelectField,
-  SliderField,
-} from 'shared-components';
+import React from 'react';
 import { Ok, Copy } from '@atom-learning/icons';
+import { useHistory, useParams } from 'react-router-dom';
+
+import { Flex, Form, Icon } from 'shared-components';
+import { generateRandomPassword } from 'randomizer';
 import { ContentContainer } from 'components/content-container';
 import { categories } from 'globalConstants';
 import { useMasterPassword } from 'hooks/use-master-password';
 import { IPassword, usePasswords } from 'hooks/use-passwords';
-import { generateRandomPassword } from 'randomizer';
-import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import {
+  CheckboxField,
+  DarkActionIcon,
+  DarkButton,
+  InputField,
+  SelectField,
+  SliderField,
+} from 'components/form-fields';
 
 type IFormData = Omit<IPassword, 'id'>;
 
@@ -150,14 +149,14 @@ export const EditPassword: React.FC = () => {
                   onChange={(event) => setRevealedPassword(event.target.value)}
                   css={{ flexGrow: 1 }}
                 />
-                <ActionIcon
+                <DarkActionIcon
                   label='copy-password'
                   appearance='outline'
                   size='lg'
                   onClick={copyPasswordToClipboard}
                 >
                   <Icon is={passwordCopied ? Ok : Copy} />
-                </ActionIcon>
+                </DarkActionIcon>
               </Flex>
               <SliderField
                 label={`Password Length (${passwordLength})`}
@@ -168,6 +167,12 @@ export const EditPassword: React.FC = () => {
                 max={100}
                 outputLabel={() => ''}
                 onValueChange={([value]) => setPasswordLength(value)}
+                css={{
+                  '& > span > span:last-child': {
+                    bg: '$tonal50',
+                    borderRadius: '$round',
+                  },
+                }}
               />
               <CheckboxField
                 label='Include Letters'
@@ -195,10 +200,12 @@ export const EditPassword: React.FC = () => {
                 checked={useSymbols}
                 onCheckedChange={(checked) => setUseSymbols(checked as boolean)}
               />
-              <Button type='submit'>
-                <Icon is={Ok} />
-                Update
-              </Button>
+              <DarkButton
+                type='submit'
+                css={{ px: '$3', width: '100%', mt: '$4' }}
+              >
+                SAVE
+              </DarkButton>
             </>
           );
         }}

@@ -1,22 +1,20 @@
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { Edit } from '@atom-learning/icons';
+import { Bin, Edit } from '@atom-learning/icons';
 
-import {
-  Button,
-  Flex,
-  Icon,
-  Label,
-  Link,
-  Stack,
-  Text,
-  toast,
-} from 'shared-components';
+import { Flex, Form, Icon, toast } from 'shared-components';
 import { ContentContainer } from 'components/content-container';
 import { IPassword, usePasswords } from 'hooks/use-passwords';
 import { DUMMY_PASS } from './constants';
 import { EnhancedInput } from 'components/enhanced-input';
 import { copyToClipboard } from 'utils';
+import { PasswordCard } from 'components/password-card';
+import {
+  DarkActionIcon,
+  InputField,
+  SelectField,
+} from 'components/form-fields';
+import { categories } from 'globalConstants';
 
 export const ViewPassword: React.FC = () => {
   const history = useHistory();
@@ -63,43 +61,69 @@ export const ViewPassword: React.FC = () => {
     setPasswordRevealed(!passwordRevealed);
   };
 
+  if (!fetchedPassword) return null;
+
   return (
-    <ContentContainer>
-      <Flex css={{ gap: '$5', flexDirection: 'column', flexGrow: 1 }}>
-        <Stack direction='column'>
-          <Label>Category</Label>
-          <Text>{fetchedPassword?.category}</Text>
-        </Stack>
-        <Stack direction='column'>
-          <Label>Website</Label>
-          <Link href={fetchedPassword?.website}>
-            {fetchedPassword?.website}
-          </Link>
-        </Stack>
-        <Stack direction='column'>
-          <Label>Login</Label>
-          <EnhancedInput
-            value={fetchedPassword?.login}
-            name='login'
-            onCopy={() => copyToClipboard(fetchedPassword?.login)}
-          />
-        </Stack>
-        <Stack direction='column'>
-          <Label>Password</Label>
-          <EnhancedInput
-            value={revealedPassword}
-            name='password'
-            visible={passwordRevealed}
-            type={passwordRevealed ? 'text' : 'password'}
-            onCopy={copyPasswordToClipboard}
-            onVisibilityToggle={togglePasswordVisibility}
-          />
-        </Stack>
-        <Link as={Button} href={`/#/password/edit/${id}`}>
+    <ContentContainer css={{ gap: '$4' }}>
+      <PasswordCard password={fetchedPassword} />
+      <Flex css={{ justifyContent: 'space-between' }}>
+        <DarkActionIcon
+          size='xl'
+          label='delete-password'
+          css={{ border: 'none', justifyContent: 'flex-end', size: '$2' }}
+        >
+          <Icon is={Bin} />
+        </DarkActionIcon>
+        <DarkActionIcon
+          size='xl'
+          label='edit-password'
+          href={`/#/password/edit/${id}`}
+          css={{ border: 'none', justifyContent: 'flex-start', size: '$2' }}
+        >
           <Icon is={Edit} />
-          Edit
-        </Link>
+        </DarkActionIcon>
       </Flex>
+      <Form
+        onSubmit={() => null}
+        css={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '$4',
+          border: '1px solid $tonal200',
+          borderRadius: '$0',
+          p: '$4',
+        }}
+      >
+        <InputField
+          label='Category'
+          name='category'
+          value={fetchedPassword.category}
+          readOnly
+        />
+        <InputField
+          label='Website'
+          name='website'
+          value={fetchedPassword.website}
+          readOnly
+        />
+        <EnhancedInput
+          label='Login'
+          name='login'
+          value={fetchedPassword.login}
+          readOnly
+          onCopy={() => copyToClipboard(fetchedPassword.login)}
+        />
+        <EnhancedInput
+          label='Password'
+          name='password'
+          value={revealedPassword}
+          readOnly
+          type={passwordRevealed ? 'text' : 'password'}
+          visible={passwordRevealed}
+          onCopy={copyPasswordToClipboard}
+          onVisibilityToggle={togglePasswordVisibility}
+        />
+      </Form>
     </ContentContainer>
   );
 };

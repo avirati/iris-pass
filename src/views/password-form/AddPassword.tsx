@@ -3,21 +3,19 @@ import { useHistory } from 'react-router-dom';
 import { Copy, Ok, Plus } from '@atom-learning/icons';
 
 import { ContentContainer } from 'components/content-container';
-import {
-  ActionIcon,
-  Button,
-  CheckboxField,
-  Flex,
-  Form,
-  Icon,
-  InputField,
-  SelectField,
-  SliderField,
-} from 'shared-components';
+import { Flex, Form, Icon } from 'shared-components';
 import { IPassword, usePasswords } from 'hooks/use-passwords';
 import { categories } from 'globalConstants';
 import { copyToClipboard, waitForSeconds } from 'utils';
 import { generateRandomPassword } from 'randomizer';
+import {
+  InputField,
+  SelectField,
+  SliderField,
+  CheckboxField,
+  DarkButton,
+  DarkActionIcon,
+} from 'components/form-fields';
 
 type IFormData = Omit<IPassword, 'id'>;
 
@@ -75,6 +73,7 @@ export const AddPassword: React.FC = () => {
                 label='Select a Category'
                 fieldId='categories'
                 autoComplete='off'
+                required
               >
                 <option value=''>Select</option>
                 {categories.map((value) => (
@@ -88,12 +87,14 @@ export const AddPassword: React.FC = () => {
                 name='website'
                 placeholder='Website (e.g. https://google.com)'
                 autoComplete='off'
+                required
               />
               <InputField
                 label='Login'
                 name='login'
                 placeholder='Login (e.g. you@example.com)'
                 autoComplete='off'
+                required
               />
               <Flex css={{ alignItems: 'flex-end', gap: '$2' }}>
                 <InputField
@@ -103,17 +104,19 @@ export const AddPassword: React.FC = () => {
                   placeholder='Enter or Generate'
                   autoComplete='off'
                   value={generatedPassword}
-                  onChange={(event) => setGeneratedPassword(event.target.value)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    setGeneratedPassword(event.target.value)
+                  }
                   css={{ flexGrow: 1 }}
+                  required
                 />
-                <ActionIcon
+                <DarkActionIcon
                   label='copy-password'
-                  appearance='outline'
                   size='lg'
                   onClick={copyPasswordToClipboard}
                 >
                   <Icon is={passwordCopied ? Ok : Copy} />
-                </ActionIcon>
+                </DarkActionIcon>
               </Flex>
               <SliderField
                 label={`Password Length (${passwordLength})`}
@@ -123,25 +126,35 @@ export const AddPassword: React.FC = () => {
                 min={8}
                 max={100}
                 outputLabel={() => ''}
-                onValueChange={([value]) => setPasswordLength(value)}
+                onValueChange={([value]: number[]) => setPasswordLength(value)}
+                css={{
+                  '& > span > span:last-child': {
+                    bg: '$tonal50',
+                    borderRadius: '$round',
+                  },
+                }}
               />
               <CheckboxField
                 label='Include Letters'
                 name='useLetters'
                 checked={useLetters}
-                onCheckedChange={(checked) => setUseLetters(checked as boolean)}
+                onCheckedChange={(checked: boolean) =>
+                  setUseLetters(checked as boolean)
+                }
               />
               <CheckboxField
                 label='Include Numbers'
                 name='useNumbers'
                 checked={useNumbers}
-                onCheckedChange={(checked) => setUseNumbers(checked as boolean)}
+                onCheckedChange={(checked: boolean) =>
+                  setUseNumbers(checked as boolean)
+                }
               />
               <CheckboxField
                 label='Include Uppercase Characters'
                 name='useUppercaseChars'
                 checked={useUppercaseChars}
-                onCheckedChange={(checked) =>
+                onCheckedChange={(checked: boolean) =>
                   setUseUppercaseChars(checked as boolean)
                 }
               />
@@ -149,12 +162,16 @@ export const AddPassword: React.FC = () => {
                 label='Include Symbols'
                 name='useSymbols'
                 checked={useSymbols}
-                onCheckedChange={(checked) => setUseSymbols(checked as boolean)}
+                onCheckedChange={(checked: boolean) =>
+                  setUseSymbols(checked as boolean)
+                }
               />
-              <Button type='submit'>
-                <Icon is={Plus} />
-                Add
-              </Button>
+              <DarkButton
+                type='submit'
+                css={{ px: '$3', width: '100%', mt: '$4' }}
+              >
+                SAVE
+              </DarkButton>
             </>
           );
         }}
