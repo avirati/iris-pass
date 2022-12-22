@@ -8,6 +8,7 @@ import { IPassword, IUsePasswordContext } from './usePasswords.types';
 import { CryptoUtil } from 'utils/crypto';
 import { useMasterPassword } from 'hooks/use-master-password';
 import { copyToClipboard } from 'utils';
+import { LockScreen } from 'components/lock-screen';
 
 export const UsePasswordContext = createContext<IUsePasswordContext>({
   passwords: [],
@@ -26,7 +27,7 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({
 }) => {
   const [passwords, setPasswords] = useState<IPassword[]>([]);
   const [refreshCounter, setRefreshCounter] = useState<number>(0);
-  const { masterPassword } = useMasterPassword();
+  const { masterPassword, isUserAuthenticated } = useMasterPassword();
 
   const addPassword: IUsePasswordContext['addPassword'] = useCallback(
     async ({ category, login, password, website }) => {
@@ -162,7 +163,13 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({
         getPasswordEntry,
       }}
     >
-      {children}
+      {isUserAuthenticated
+        ? children
+        : React.Children.map(
+            children as React.ReactElement,
+            (child: React.ReactElement) =>
+              child.type === LockScreen ? child : null
+          )}
     </UsePasswordContext.Provider>
   );
 };
