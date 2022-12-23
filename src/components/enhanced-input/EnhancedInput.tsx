@@ -1,9 +1,9 @@
 import React from 'react';
 import { Ok, Copy, Eye, EyeClosed } from '@atom-learning/icons';
 
-import { Flex, Icon } from 'shared-components';
-import { waitForSeconds } from 'utils';
-import { DarkActionIcon, InputField } from 'components/form-fields';
+import { Flex, Icon } from '../../shared-components';
+import { waitForSeconds } from '../../utils';
+import { DarkActionIcon, InputField } from '../../components/form-fields';
 
 interface IEnhancedInputProps extends React.ComponentProps<typeof InputField> {
   visible?: boolean;

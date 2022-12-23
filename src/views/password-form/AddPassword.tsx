@@ -1,13 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Copy, Ok, Plus } from '@atom-learning/icons';
+import { Copy, Ok } from '@atom-learning/icons';
 
-import { ContentContainer } from 'components/content-container';
-import { Flex, Form, Icon } from 'shared-components';
-import { IPassword, usePasswords } from 'hooks/use-passwords';
-import { categories } from 'globalConstants';
-import { copyToClipboard, waitForSeconds } from 'utils';
-import { generateRandomPassword } from 'randomizer';
+import { ContentContainer } from '../../components/content-container';
+import { Flex, Form, Icon } from '../../shared-components';
+import { IPassword, usePasswords } from '../../hooks/use-passwords';
+import { categories } from '../../globalConstants';
+import { copyToClipboard, waitForSeconds } from '../../utils';
+import { generateRandomPassword } from '../../randomizer';
 import {
   InputField,
   SelectField,
@@ -15,7 +15,7 @@ import {
   CheckboxField,
   DarkButton,
   DarkActionIcon,
-} from 'components/form-fields';
+} from '../../components/form-fields';
 
 type IFormData = Omit<IPassword, 'id'>;
 

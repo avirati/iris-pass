@@ -1,18 +1,12 @@
 {
   "name": "password-manager",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@atom-learning/components": "^1.13.0",
     "@atom-learning/icons": "^1.10.0",
     "@atom-learning/theme": "^1.0.1",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.2.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.1",
-    "@types/node": "^16.11.36",
-    "@types/react": "^18.0.9",
-    "@types/react-dom": "^18.0.5",
     "crypto-js": "^4.1.1",
     "knuth-shuffle-seeded": "^1.0.6",
     "localforage": "^1.10.0",
@@ -20,16 +14,12 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-router-dom": "^5.3.3",
-    "react-scripts": "5.0.1",
-    "typescript": "^4.7.2",
-    "uuid": "^8.3.2",
-    "web-vitals": "^2.1.4"
+    "uuid": "^8.3.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "eslintConfig": {
     "extends": [
@@ -50,13 +40,23 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.2.0",
+    "@testing-library/user-event": "^13.5.0",
     "@types/crypto-js": "^4.1.1",
+    "@types/jest": "^27.5.1",
+    "@types/node": "^16.11.36",
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.5",
     "@types/react-router-dom": "^5.3.3",
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",
+    "@vitejs/plugin-react-swc": "^3.0.1",
     "eslint": "^8.23.0",
     "eslint-plugin-react": "^7.31.4",
-    "eslint-plugin-react-hooks": "^4.6.0"
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "typescript": "^4.7.2",
+    "vite": "^4.0.3"
   }
 }

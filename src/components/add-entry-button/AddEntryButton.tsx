@@ -1,7 +1,7 @@
 import React from 'react';
 import { Plus } from '@atom-learning/icons';
 
-import { Button, Icon } from 'shared-components';
+import { Button, Icon } from '../../shared-components';
 
 export const AddEntryButton: React.FC = () => {
   return (

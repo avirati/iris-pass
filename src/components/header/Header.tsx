@@ -1,7 +1,7 @@
 import React from 'react';
 import { LockAlt } from '@atom-learning/icons';
 
-import { Flex, Icon, Link, Text } from 'shared-components';
+import { Flex, Icon, Link, Text } from '../../shared-components';
 
 export const Header: React.FC = () => {
   return (

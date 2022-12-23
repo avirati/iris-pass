@@ -1,1 +1,2 @@
-export { useMasterPassword } from './useMasterPassword'
+export { useMasterPassword } from './useMasterPassword';
+export { UseMasterPasswordProvider } from './useMasterPassword.context';

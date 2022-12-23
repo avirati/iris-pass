@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState, createContext } from 'react';
 import { SHA256 } from 'crypto-js';
 import { v4 as UUID } from 'uuid';
 
-import { Storage } from 'storage';
-import { CryptoUtil } from 'utils/crypto';
+import { Storage } from '../../storage';
+import { CryptoUtil } from '../../utils/crypto';
 
 import { IUseMasterPasswordContext } from './useMasterPassword.types';
 

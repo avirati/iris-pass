@@ -1,11 +1,11 @@
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
-import { ContentContainer } from 'components/content-container';
-import { PasswordCard } from 'components/password-card';
-import { IPassword, usePasswords } from 'hooks/use-passwords';
-import { Flex, Heading, Stack, Text, toast } from 'shared-components';
-import { DarkButton } from 'components/form-fields';
+import { ContentContainer } from '../../components/content-container';
+import { PasswordCard } from '../../components/password-card';
+import { IPassword, usePasswords } from '../../hooks/use-passwords';
+import { Flex, Heading, Stack, Text, toast } from '../../shared-components';
+import { DarkButton } from '../../components/form-fields';
 
 export const DeletePassword: React.FC = () => {
   const history = useHistory();

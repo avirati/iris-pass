@@ -1,14 +1,13 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
-import { toast } from 'shared-components';
-import { Storage } from 'storage';
-
+import { toast } from '../../shared-components';
+import { Storage } from '../../storage';
+import { CryptoUtil } from '../../utils/crypto';
+import { useMasterPassword } from '../../hooks/use-master-password';
+import { copyToClipboard } from '../../utils';
+import { LockScreen } from '../../components/lock-screen';
 import { IPassword, IUsePasswordContext } from './usePasswords.types';
-import { CryptoUtil } from 'utils/crypto';
-import { useMasterPassword } from 'hooks/use-master-password';
-import { copyToClipboard } from 'utils';
-import { LockScreen } from 'components/lock-screen';
 
 export const UsePasswordContext = createContext<IUsePasswordContext>({
   passwords: [],

@@ -1,18 +1,18 @@
 import React from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 
-import { Header } from 'components/header';
-import { LockScreen } from 'components/lock-screen';
-import { Dashboard } from 'views/dashboard';
+import { Header } from './components/header';
+import { LockScreen } from './components/lock-screen';
+import { Dashboard } from './views/dashboard';
 import {
   AddPassword,
   DeletePassword,
   EditPassword,
   ViewPassword,
-} from 'views/password-form';
-import { AlertProvider, ToastProvider } from 'shared-components';
-import { UsePasswordProvider } from 'hooks/use-passwords';
-import { UseMasterPasswordProvider } from 'hooks/use-master-password/useMasterPassword.context';
+} from './views/password-form';
+import { AlertProvider, ToastProvider } from './shared-components';
+import { UsePasswordProvider } from './hooks/use-passwords';
+import { UseMasterPasswordProvider } from './hooks/use-master-password';
 
 export const App: React.FC = () => {
   return (

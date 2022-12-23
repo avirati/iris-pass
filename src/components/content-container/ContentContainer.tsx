@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CSS, Flex } from 'shared-components';
+import { CSS, Flex } from '../../shared-components';
 
 interface IContentContainer {
   children?: React.ReactNode;

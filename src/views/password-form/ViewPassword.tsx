@@ -2,14 +2,14 @@ import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Bin, Edit } from '@atom-learning/icons';
 
-import { Flex, Form, Icon, toast, useAlert } from 'shared-components';
-import { ContentContainer } from 'components/content-container';
-import { IPassword, usePasswords } from 'hooks/use-passwords';
+import { Flex, Form, Icon, toast, useAlert } from '../../shared-components';
+import { ContentContainer } from '../../components/content-container';
+import { IPassword, usePasswords } from '../../hooks/use-passwords';
 import { DUMMY_PASS } from './constants';
-import { EnhancedInput } from 'components/enhanced-input';
-import { copyToClipboard } from 'utils';
-import { PasswordCard } from 'components/password-card';
-import { DarkActionIcon, InputField } from 'components/form-fields';
+import { EnhancedInput } from '../../components/enhanced-input';
+import { copyToClipboard } from '../../utils';
+import { PasswordCard } from '../../components/password-card';
+import { DarkActionIcon, InputField } from '../../components/form-fields';
 
 export const ViewPassword: React.FC = () => {
   const history = useHistory();

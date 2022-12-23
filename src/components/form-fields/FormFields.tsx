@@ -7,7 +7,7 @@ import {
   ActionIcon as BaseActionIcon,
   Button,
   CSS,
-} from 'shared-components';
+} from '../../shared-components';
 
 const fieldCSS: CSS = {
   '& *': {

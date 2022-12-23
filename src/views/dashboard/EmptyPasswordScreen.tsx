@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dashboard } from '@atom-learning/icons';
 
-import { EmptyState, Icon } from 'shared-components';
+import { EmptyState, Icon } from '../../shared-components';
 
 export const EmptyPasswordScreen: React.FC = () => {
   return (

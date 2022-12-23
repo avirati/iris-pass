@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { ContentContainer } from 'components/content-container';
-import { usePasswords } from 'hooks/use-passwords';
-import { PasswordCard } from 'components/password-card';
-import { AddEntryButton } from 'components/add-entry-button';
+import { ContentContainer } from '../../components/content-container';
+import { usePasswords } from '../../hooks/use-passwords';
+import { PasswordCard } from '../../components/password-card';
+import { AddEntryButton } from '../../components/add-entry-button';
 
 import { EmptyPasswordScreen } from './EmptyPasswordScreen';
 

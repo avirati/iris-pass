@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { ContentContainer } from 'components/content-container';
-import { useMasterPassword } from 'hooks/use-master-password';
+import { useMasterPassword } from '../../hooks/use-master-password';
 import {
   Button,
   Form,
@@ -10,7 +9,7 @@ import {
   toast,
   keyframes,
   Flex,
-} from 'shared-components';
+} from '../../shared-components';
 
 interface IFormData {
   password: string;

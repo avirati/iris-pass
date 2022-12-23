@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Lock } from '@atom-learning/icons';
 
-import { Box, Flex, Icon, keyframes, Heading } from 'shared-components';
-import { useMasterPassword } from 'hooks/use-master-password';
-import { waitForSeconds } from 'utils';
+import { Box, Flex, keyframes, Heading } from '../../shared-components';
+import { useMasterPassword } from '../../hooks/use-master-password';
+import { waitForSeconds } from '../../utils';
 
 import { MasterPasswordForm } from './MasterPasswordForm';
 
