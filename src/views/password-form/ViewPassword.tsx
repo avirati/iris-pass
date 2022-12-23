@@ -2,19 +2,14 @@ import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Bin, Edit } from '@atom-learning/icons';
 
-import { Flex, Form, Icon, toast } from 'shared-components';
+import { Flex, Form, Icon, toast, useAlert } from 'shared-components';
 import { ContentContainer } from 'components/content-container';
 import { IPassword, usePasswords } from 'hooks/use-passwords';
 import { DUMMY_PASS } from './constants';
 import { EnhancedInput } from 'components/enhanced-input';
 import { copyToClipboard } from 'utils';
 import { PasswordCard } from 'components/password-card';
-import {
-  DarkActionIcon,
-  InputField,
-  SelectField,
-} from 'components/form-fields';
-import { categories } from 'globalConstants';
+import { DarkActionIcon, InputField } from 'components/form-fields';
 
 export const ViewPassword: React.FC = () => {
   const history = useHistory();
@@ -26,7 +21,8 @@ export const ViewPassword: React.FC = () => {
   const [revealedPassword, setRevealedPassword] =
     React.useState<string>(DUMMY_PASS);
 
-  const { getPassword, getPasswordEntry } = usePasswords();
+  const { getPassword, getPasswordEntry, removePassword } = usePasswords();
+  const { showAlert } = useAlert();
 
   React.useEffect(() => {
     if (!fetchedPassword && id) {
@@ -70,7 +66,8 @@ export const ViewPassword: React.FC = () => {
         <DarkActionIcon
           size='xl'
           label='delete-password'
-          css={{ border: 'none', justifyContent: 'flex-end', size: '$2' }}
+          href={`/#/password/delete/${id}`}
+          css={{ border: 'none', size: '$2' }}
         >
           <Icon is={Bin} />
         </DarkActionIcon>
@@ -78,7 +75,7 @@ export const ViewPassword: React.FC = () => {
           size='xl'
           label='edit-password'
           href={`/#/password/edit/${id}`}
-          css={{ border: 'none', justifyContent: 'flex-start', size: '$2' }}
+          css={{ border: 'none', size: '$2' }}
         >
           <Icon is={Edit} />
         </DarkActionIcon>
