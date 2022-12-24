@@ -1,7 +1,9 @@
 export const useDevice = () => {
-  const isMobile = Boolean((window as any).Capacitor.platform !== 'web');
+  const isAndroid = Boolean((window as any).Capacitor.platform === 'android');
+  const isElectron = Boolean(window.electron);
 
   return {
-    isMobile,
+    isAndroid,
+    isElectron,
   };
 };

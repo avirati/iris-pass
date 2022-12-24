@@ -1,5 +1,5 @@
 import React from 'react';
-import { Rotate, LockAlt } from '@atom-learning/icons';
+import { Rotate, LockAlt, Qr } from '@atom-learning/icons';
 
 import {
   Flex,
@@ -12,6 +12,7 @@ import {
 import { DarkActionIcon } from '../form-fields';
 import { usePasswordSync } from '../../hooks/use-password-sync';
 import { useMasterPassword } from '../../hooks/use-master-password';
+import { useDevice } from '../../hooks/use-device';
 
 const rotatingAnimation = keyframes({
   from: { transform: 'rotate(0deg)' },
@@ -30,8 +31,9 @@ const StyledActionIcon = styled(DarkActionIcon, {
 });
 
 export const Header: React.FC = () => {
+  const { isAndroid, isElectron } = useDevice();
   const { isUserAuthenticated } = useMasterPassword();
-  const { isSyncing, isQRCodeActive, syncPasswords } = usePasswordSync();
+  const { isSyncing, syncPasswords } = usePasswordSync();
 
   return (
     <Flex
@@ -58,7 +60,7 @@ export const Header: React.FC = () => {
         <Icon is={LockAlt} css={{ color: '$tonal100', mr: '$2' }} />
         <Text
           as='span'
-          size='lg'
+          size={isAndroid ? 'md' : 'lg'}
           css={{
             color: '$tonal100',
             textTransform: 'uppercase',
@@ -67,14 +69,14 @@ export const Header: React.FC = () => {
           Password Manager
         </Text>
       </Link>
-      {!isQRCodeActive && isUserAuthenticated && (
+      {isUserAuthenticated && (
         <StyledActionIcon
           label='sync'
-          loading={isSyncing}
+          loading={isAndroid && isSyncing}
           onClick={syncPasswords}
           css={{ border: 'none' }}
         >
-          <Icon is={Rotate} />
+          <Icon is={isElectron ? Qr : Rotate} />
         </StyledActionIcon>
       )}
     </Flex>

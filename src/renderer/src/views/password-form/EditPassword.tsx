@@ -70,7 +70,7 @@ export const EditPassword: React.FC = () => {
             setFetchedPassword(password);
             return getPassword(password.id);
           } else {
-            history.push('/#/');
+            history.push('/');
             return Promise.resolve('');
           }
         })

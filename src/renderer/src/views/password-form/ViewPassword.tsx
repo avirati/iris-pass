@@ -21,8 +21,7 @@ export const ViewPassword: React.FC = () => {
   const [revealedPassword, setRevealedPassword] =
     React.useState<string>(DUMMY_PASS);
 
-  const { getPassword, getPasswordEntry, removePassword } = usePasswords();
-  const { showAlert } = useAlert();
+  const { getPassword, getPasswordEntry } = usePasswords();
 
   React.useEffect(() => {
     if (!fetchedPassword && id) {
@@ -30,7 +29,7 @@ export const ViewPassword: React.FC = () => {
         if (password) {
           setFetchedPassword(password);
         } else {
-          history.push('/#/');
+          history.push('/');
         }
       });
     }

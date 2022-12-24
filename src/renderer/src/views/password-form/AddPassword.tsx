@@ -34,7 +34,7 @@ export const AddPassword: React.FC = () => {
 
   const onAddPassword = async (formData: IFormData) => {
     await addPassword(formData);
-    history.push('/#/');
+    history.push('/');
   };
 
   const copyPasswordToClipboard = async () => {

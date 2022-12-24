@@ -8,8 +8,8 @@ import { IPCEvents } from '../IPCEvents';
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 375,
+    height: 667,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux'
@@ -35,6 +35,7 @@ function createWindow(): void {
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+    // mainWindow.webContents.openDevTools();
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
   } else {
     mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));

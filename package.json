@@ -30,13 +30,16 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+
     "electron:start": "electron-vite preview",
     "electron:dev": "electron-vite dev",
     "electron:build": "electron-vite build",
     "electron:postinstall": "electron-builder install-app-deps",
     "electron:build:win": "yarn electron:build && electron-builder --win --config",
     "electron:build:mac": "yarn electron:build && electron-builder --mac --config",
-    "electron:build:linux": "yarn electron:build && electron-builder --linux --config"
+    "electron:build:linux": "yarn electron:build && electron-builder --linux --config",
+
+    "capacitor:run:android": "yarn build && cap sync && cap run android"
   },
   "eslintConfig": {
     "extends": [
