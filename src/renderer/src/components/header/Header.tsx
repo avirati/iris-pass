@@ -1,9 +1,38 @@
 import React from 'react';
-import { LockAlt } from '@atom-learning/icons';
+import { Rotate, LockAlt } from '@atom-learning/icons';
 
-import { Flex, Icon, Link, Text } from '../../shared-components';
+import {
+  Flex,
+  Icon,
+  keyframes,
+  Link,
+  styled,
+  Text,
+} from '../../shared-components';
+import { DarkActionIcon } from '../form-fields';
+import { usePasswordSync } from '../../hooks/use-password-sync';
+import { useMasterPassword } from '../../hooks/use-master-password';
+
+const rotatingAnimation = keyframes({
+  from: { transform: 'rotate(0deg)' },
+  to: { transform: 'rotate(360deg)' },
+});
+
+const StyledActionIcon = styled(DarkActionIcon, {
+  '& > svg': { size: '32px' },
+  variants: {
+    loading: {
+      true: {
+        animation: `${rotatingAnimation} 2s linear infinite`,
+      },
+    },
+  },
+});
 
 export const Header: React.FC = () => {
+  const { isUserAuthenticated } = useMasterPassword();
+  const { isSyncing, isQRCodeActive, syncPasswords } = usePasswordSync();
+
   return (
     <Flex
       css={{
@@ -38,6 +67,16 @@ export const Header: React.FC = () => {
           Password Manager
         </Text>
       </Link>
+      {!isQRCodeActive && isUserAuthenticated && (
+        <StyledActionIcon
+          label='sync'
+          loading={isSyncing}
+          onClick={syncPasswords}
+          css={{ border: 'none' }}
+        >
+          <Icon is={Rotate} />
+        </StyledActionIcon>
+      )}
     </Flex>
   );
 };

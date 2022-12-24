@@ -13,6 +13,7 @@ import {
 import { AlertProvider, ToastProvider } from './shared-components';
 import { UsePasswordProvider } from './hooks/use-passwords';
 import { UseMasterPasswordProvider } from './hooks/use-master-password';
+import { UsePasswordSyncProvider } from './hooks/use-password-sync';
 
 export const App: React.FC = () => {
   return (
@@ -21,7 +22,9 @@ export const App: React.FC = () => {
         <UseMasterPasswordProvider>
           <UsePasswordProvider>
             <LockScreen />
-            <Header />
+            <UsePasswordSyncProvider>
+              <Header />
+            </UsePasswordSyncProvider>
             <HashRouter>
               <Switch>
                 <Route path='/password/add' component={AddPassword} />

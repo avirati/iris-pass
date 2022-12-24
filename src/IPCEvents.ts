@@ -1,0 +1,4 @@
+export enum IPCEvents {
+  GET_LOCAL_IP = 'GET_LOCAL_IP',
+  GET_LOCAL_IP_SUCCESS = 'GET_LOCAL_IP_SUCCESS',
+}
