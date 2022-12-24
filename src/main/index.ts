@@ -4,6 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import ip from 'ip';
 
 import { IPCEvents } from '../IPCEvents';
+import { SyncServer } from './sync';
 
 function createWindow(): void {
   // Create the browser window.
@@ -35,7 +36,7 @@ function createWindow(): void {
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    // mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
   } else {
     mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
@@ -44,6 +45,14 @@ function createWindow(): void {
   ipcMain.on(IPCEvents.GET_LOCAL_IP, () => {
     const localIP = ip.address();
     mainWindow.webContents.send(IPCEvents.GET_LOCAL_IP_SUCCESS, localIP);
+  });
+
+  ipcMain.on(IPCEvents.START_SYNC_SERVER, () => {
+    SyncServer.start(1337, mainWindow);
+  });
+
+  ipcMain.on(IPCEvents.STOP_SYNC_SERVER, () => {
+    SyncServer.stop();
   });
 }
 

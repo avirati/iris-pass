@@ -14,8 +14,12 @@
     "@capacitor/core": "^4.6.1",
     "@electron-toolkit/preload": "^1.0.2",
     "@electron-toolkit/utils": "^1.0.2",
+    "axios": "^1.2.1",
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
     "electron-updater": "^5.3.0",
+    "express": "^4.18.2",
     "ip": "^1.1.8",
     "knuth-shuffle-seeded": "^1.0.6",
     "localforage": "^1.10.0",
@@ -30,7 +34,6 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-
     "electron:start": "electron-vite preview",
     "electron:dev": "electron-vite dev",
     "electron:build": "electron-vite build",
@@ -38,7 +41,6 @@
     "electron:build:win": "yarn electron:build && electron-builder --win --config",
     "electron:build:mac": "yarn electron:build && electron-builder --mac --config",
     "electron:build:linux": "yarn electron:build && electron-builder --linux --config",
-
     "capacitor:run:android": "yarn build && cap sync && cap run android"
   },
   "eslintConfig": {
@@ -66,7 +68,9 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
+    "@types/axios": "^0.14.0",
     "@types/crypto-js": "^4.1.1",
+    "@types/express": "^4.17.15",
     "@types/ip": "^1.1.0",
     "@types/jest": "^27.5.1",
     "@types/node": "16.11.22",

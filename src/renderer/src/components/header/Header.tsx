@@ -33,7 +33,7 @@ const StyledActionIcon = styled(DarkActionIcon, {
 export const Header: React.FC = () => {
   const { isAndroid, isElectron } = useDevice();
   const { isUserAuthenticated } = useMasterPassword();
-  const { isSyncing, syncPasswords } = usePasswordSync();
+  const { isSyncing, startSync } = usePasswordSync();
 
   return (
     <Flex
@@ -73,7 +73,7 @@ export const Header: React.FC = () => {
         <StyledActionIcon
           label='sync'
           loading={isAndroid && isSyncing}
-          onClick={syncPasswords}
+          onClick={startSync}
           css={{ border: 'none' }}
         >
           <Icon is={isElectron ? Qr : Rotate} />

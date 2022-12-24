@@ -13,6 +13,22 @@ const api = {
       callback(localIP)
     );
   },
+  startSyncServer: () => {
+    ipcRenderer.send(IPCEvents.START_SYNC_SERVER);
+  },
+  stopSyncServer: () => {
+    ipcRenderer.send(IPCEvents.STOP_SYNC_SERVER);
+  },
+  onSyncHandshake: (
+    callback: (handshake: { input: string; output: string }) => void
+  ) => {
+    ipcRenderer.once(IPCEvents.SYNC_HANDSHAKE, (event, handshake) =>
+      callback(handshake)
+    );
+  },
+  syncHandshakeResult: (success: boolean) => {
+    ipcRenderer.send(IPCEvents.SYNC_HANDSHAKE_RESULT, success);
+  },
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

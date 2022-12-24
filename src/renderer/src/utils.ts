@@ -48,3 +48,8 @@ export const parseWebsite = (website: string): IWebsite => {
 
   return out;
 };
+
+export const validateIP = (ip: string) => {
+  const regex = /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$/g;
+  return regex.test(ip);
+};
