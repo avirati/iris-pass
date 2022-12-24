@@ -7,7 +7,7 @@ import { QRCodeUtils } from '../../utils/qrcode';
 import { CryptoUtil } from '../../utils/crypto';
 import { useMasterPassword } from '../use-master-password';
 import { toast } from '../../shared-components';
-import { toDictionary, validateIP } from '../../utils';
+import { toDictionary, validateIP, waitForSeconds } from '../../utils';
 import { UsePasswordSyncRepository } from './usePasswordSync.repository';
 import { IPassword, usePasswords } from '../use-passwords';
 import { passwordStore } from '../../storage';
@@ -93,10 +93,11 @@ export const UsePasswordSyncProvider: React.FC<{
 
   const startSync = React.useCallback(async () => {
     if (isElectron) {
+      history.push('/qrcode/viewer');
+      await waitForSeconds(1);
       const encryptedEndpoint = CryptoUtil.encrypt(ip, masterPassword!);
       const data = await QRCodeUtils.generate(encryptedEndpoint);
       setQRCode(data);
-      history.push('/qrcode/viewer');
 
       window.api.startSyncServer();
       window.api.onSyncHandshake(({ input, output, ...rest }) => {
@@ -123,6 +124,7 @@ export const UsePasswordSyncProvider: React.FC<{
         history.replace('/');
       });
     } else if (isAndroid) {
+      setIsSyncing(true);
       history.push('/qrcode/scanner');
       try {
         const data = await QRCodeUtils.scan();
@@ -148,15 +150,18 @@ export const UsePasswordSyncProvider: React.FC<{
             } else {
               toast.error('Handshake unsuccessful');
             }
-            history.replace('/');
           } else {
             toast.error(
               'Unable to sync. Your identity did not match with the other device'
             );
           }
+          history.replace('/');
         }
       } catch (error) {
         toast.error((error as Error).message);
+      } finally {
+        await waitForSeconds(3);
+        setIsSyncing(false);
       }
     }
   }, [history, ip, isAndroid, isElectron, masterPassword, passwords, refresh]);
@@ -165,8 +170,7 @@ export const UsePasswordSyncProvider: React.FC<{
     if (isElectron) {
       window.api.stopSyncServer();
     }
-    history.replace('/');
-  }, [history, isElectron]);
+  }, [isElectron]);
 
   return (
     <UsePasswordSyncContext.Provider

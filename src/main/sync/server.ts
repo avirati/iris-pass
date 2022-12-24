@@ -29,7 +29,9 @@ const start = (port: number, mainWindow: BrowserWindow) => {
 };
 
 const stop = () => {
-  server.close(() => console.log('Sync server stopped'));
+  if (server?.listening) {
+    server.close(() => console.log('Sync server stopped'));
+  }
 };
 
 export const SyncServer = { start, stop };

@@ -4,7 +4,10 @@ import { Flex, Image, Text } from '../../shared-components';
 import { usePasswordSync } from '../../hooks/use-password-sync';
 
 export const QRCodeViewer: React.FC = () => {
-  const { qrCode } = usePasswordSync();
+  const { qrCode, stopSync } = usePasswordSync();
+
+  React.useEffect(() => stopSync, [stopSync]);
+
   return (
     <Flex
       css={{
