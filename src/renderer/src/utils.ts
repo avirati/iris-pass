@@ -53,3 +53,16 @@ export const validateIP = (ip: string) => {
   const regex = /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$/g;
   return regex.test(ip);
 };
+
+export const toDictionary = <T>(
+  array: T[],
+  key: keyof T
+): Record<string, T> => {
+  const out: Record<string, T> = {};
+
+  array.forEach((object) => {
+    out[String(object[key])] = object;
+  });
+
+  return out;
+};

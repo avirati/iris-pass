@@ -9,9 +9,16 @@ declare global {
       startSyncServer: () => void;
       stopSyncServer: () => void;
       onSyncHandshake: (
-        callback: (handshake: { input: string; output: string }) => void
+        callback: (handshake: {
+          input: string;
+          output: string;
+          passwords: any[];
+        }) => void
       ) => void;
-      syncHandshakeResult: (success: boolean) => void;
+      syncHandshakeResult: (
+        success: boolean,
+        passwords: Record<string, any>
+      ) => void;
     };
   }
 }

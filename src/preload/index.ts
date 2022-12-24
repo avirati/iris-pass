@@ -26,8 +26,8 @@ const api = {
       callback(handshake)
     );
   },
-  syncHandshakeResult: (success: boolean) => {
-    ipcRenderer.send(IPCEvents.SYNC_HANDSHAKE_RESULT, success);
+  syncHandshakeResult: (success: boolean, passwords: Record<string, any>) => {
+    ipcRenderer.send(IPCEvents.SYNC_HANDSHAKE_RESULT, success, passwords);
   },
 };
 

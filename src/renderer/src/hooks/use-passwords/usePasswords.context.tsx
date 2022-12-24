@@ -2,7 +2,7 @@ import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import { toast } from '../../shared-components';
-import { Storage } from '../../storage';
+import { passwordStore } from '../../storage';
 import { CryptoUtil } from '../../utils/crypto';
 import { useMasterPassword } from '../../hooks/use-master-password';
 import { copyToClipboard } from '../../utils';
@@ -17,9 +17,8 @@ export const UsePasswordContext = createContext<IUsePasswordContext>({
   removePassword: () => Promise.resolve(),
   updatePassword: () => Promise.resolve(),
   getPasswordEntry: () => Promise.resolve(null),
+  refresh: () => null,
 });
-
-const store = new Storage('password-manager');
 
 export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({
   children,
@@ -27,6 +26,11 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({
   const [passwords, setPasswords] = useState<IPassword[]>([]);
   const [refreshCounter, setRefreshCounter] = useState<number>(0);
   const { masterPassword, isUserAuthenticated } = useMasterPassword();
+
+  const refresh = React.useCallback(
+    () => setRefreshCounter(refreshCounter + 1),
+    [refreshCounter]
+  );
 
   const addPassword: IUsePasswordContext['addPassword'] = useCallback(
     async ({ category, login, password, website }) => {
@@ -36,36 +40,37 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({
           password,
           masterPassword as string
         );
-        await store.setItem(id, {
+        await passwordStore.setItem(id, {
           id,
           category,
           login,
           password: encryptedPassword,
           website,
+          createdAt: Date.now(),
         });
 
         toast.success('Password saved!');
-        setRefreshCounter(refreshCounter + 1);
+        refresh();
       } catch (error) {
         console.error(error);
         toast.error('Unable to save password');
       }
     },
-    [masterPassword, refreshCounter]
+    [masterPassword, refresh]
   );
 
   const removePassword: IUsePasswordContext['removePassword'] = useCallback(
     async (id) => {
       try {
-        await store.removeItem(id);
+        await passwordStore.removeItem(id);
         toast.success('Password removed!');
-        setRefreshCounter(refreshCounter + 1);
+        refresh();
       } catch (error) {
         console.error(error);
         toast.error('Unable to remove password');
       }
     },
-    [refreshCounter, setRefreshCounter]
+    [refresh]
   );
 
   const updatePassword: IUsePasswordContext['updatePassword'] = useCallback(
@@ -75,27 +80,28 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({
           password,
           masterPassword as string
         );
-        await store.setItem(id, {
+        await passwordStore.setItem(id, {
           id,
           category,
           login,
           password: encryptedPassword,
           website,
+          updatedAt: Date.now(),
         });
         toast.success('Password updated!');
-        setRefreshCounter(refreshCounter + 1);
+        refresh();
       } catch (error) {
         console.error(error);
         toast.error('Unable to update password');
       }
     },
-    [refreshCounter, masterPassword, setRefreshCounter]
+    [masterPassword, refresh]
   );
 
   const getPasswordEntry: IUsePasswordContext['getPasswordEntry'] = useCallback(
     async (id) => {
       try {
-        const password = await store.getItem<IPassword>(id);
+        const password = await passwordStore.getItem<IPassword>(id);
         return password;
       } catch (error) {
         console.error(error);
@@ -109,7 +115,7 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({
   const getPassword: IUsePasswordContext['getPassword'] = useCallback(
     async (id) => {
       try {
-        const password = await store.getItem<IPassword>(id);
+        const password = await passwordStore.getItem<IPassword>(id);
         if (password && masterPassword) {
           return CryptoUtil.decrypt(password.password, masterPassword);
         } else {
@@ -127,7 +133,7 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({
   const copyPassword: IUsePasswordContext['copyPassword'] = useCallback(
     async (id) => {
       try {
-        const password = await store.getItem<IPassword>(id);
+        const password = await passwordStore.getItem<IPassword>(id);
         if (password && masterPassword) {
           const decryptedPassword = CryptoUtil.decrypt(
             password.password,
@@ -147,7 +153,7 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({
   );
 
   useEffect(() => {
-    store.getItemsArray<IPassword>().then(setPasswords);
+    passwordStore.getItemsArray<IPassword>().then(setPasswords);
   }, [refreshCounter]);
 
   return (
@@ -160,6 +166,7 @@ export const UsePasswordProvider: React.FC<{ children?: React.ReactNode }> = ({
         removePassword,
         updatePassword,
         getPasswordEntry,
+        refresh,
       }}
     >
       {isUserAuthenticated

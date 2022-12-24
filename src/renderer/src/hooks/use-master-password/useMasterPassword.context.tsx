@@ -2,15 +2,10 @@ import React, { useCallback, useEffect, useState, createContext } from 'react';
 import { SHA256 } from 'crypto-js';
 import { v4 as UUID } from 'uuid';
 
-import { Storage } from '../../storage';
+import { masterPasswordStore, deviceStore } from '../../storage';
 import { CryptoUtil } from '../../utils/crypto';
 
 import { IUseMasterPasswordContext } from './useMasterPassword.types';
-
-const masterPasswordStore = new Storage(
-  'password-manager-master-password-store'
-);
-const deviceStore = new Storage('password-manager-device-store');
 
 (async () => {
   const deviceIdStored = await deviceStore.hasItem('deviceId');

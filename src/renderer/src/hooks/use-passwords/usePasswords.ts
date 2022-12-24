@@ -1,25 +1,14 @@
-import { useContext } from 'react'
+import { useContext } from 'react';
 
-import { UsePasswordContext } from './usePasswords.context'
+import { UsePasswordContext } from './usePasswords.context';
 
 export const usePasswords = () => {
-  const {
-    passwords,
-    getPassword,
-    copyPassword,
-    addPassword,
-    getPasswordEntry,
-    removePassword,
-    updatePassword,
-  } = useContext(UsePasswordContext)
-
-  return {
-    passwords,
-    getPassword,
-    copyPassword,
-    addPassword,
-    getPasswordEntry,
-    removePassword,
-    updatePassword
+  const context = useContext(UsePasswordContext);
+  if (!context) {
+    throw new Error(
+      'usePasswords hook must be used under a UsePasswordContext Provider'
+    );
   }
-}
+
+  return { ...context };
+};

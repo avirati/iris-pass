@@ -6,6 +6,8 @@ export interface IPassword {
   login: string;
   password: string;
   website: string;
+  createdAt?: number;
+  updatedAt?: number;
 }
 
 export interface IUsePasswordContext {
@@ -16,4 +18,5 @@ export interface IUsePasswordContext {
   removePassword: (id: IPassword['id']) => Promise<void>;
   updatePassword: (password: IPassword) => Promise<void>;
   copyPassword: (id: IPassword['id']) => Promise<void>;
+  refresh: () => void;
 }
