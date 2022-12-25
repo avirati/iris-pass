@@ -1,12 +1,18 @@
 import React from 'react';
 
 import { IPassword } from '../../hooks/use-passwords';
-import { Flex, Heading, Link, Text } from '../../shared-components';
+import { CSS, Flex, Heading, Link, Text } from '../../shared-components';
 import { parseWebsite } from '../../utils';
 
 interface IPasswordCard {
   password: IPassword;
 }
+
+const ellipsisCSS: CSS = {
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+};
 
 export const PasswordCard: React.FC<IPasswordCard> = ({ password }) => {
   const { website, login, id } = password;
@@ -47,12 +53,21 @@ export const PasswordCard: React.FC<IPasswordCard> = ({ password }) => {
         </Heading>
       </Flex>
       <Flex
-        css={{ flexDirection: 'column', justifyContent: 'center', gap: '$3' }}
+        css={{
+          flexDirection: 'column',
+          justifyContent: 'center',
+          gap: '$3',
+          maxWidth: '250px',
+        }}
       >
-        <Heading as='h3' size='md' css={{ color: '$tonal200' }}>
+        <Heading
+          as='h3'
+          size='md'
+          css={{ pb: '$0', color: '$tonal200', ...ellipsisCSS }}
+        >
           {hostname}
         </Heading>
-        <Text size='sm' css={{ color: '$tonal200' }}>
+        <Text size='sm' css={{ pb: '$0', color: '$tonal200', ...ellipsisCSS }}>
           {login}
         </Text>
       </Flex>
