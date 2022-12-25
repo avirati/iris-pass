@@ -137,6 +137,7 @@ export const EditPassword: React.FC = () => {
                 name='website'
                 placeholder='Website (e.g. https://google.com)'
                 autoComplete='off'
+                autoCapitalize='off'
                 defaultValue={fetchedPassword?.website}
               />
               <InputField
@@ -144,6 +145,7 @@ export const EditPassword: React.FC = () => {
                 name='login'
                 placeholder='Login (e.g. you@example.com)'
                 autoComplete='off'
+                autoCapitalize='off'
                 defaultValue={fetchedPassword?.login}
               />
               <Flex css={{ alignItems: 'flex-end', gap: '$2' }}>
@@ -153,6 +155,7 @@ export const EditPassword: React.FC = () => {
                   type='text'
                   placeholder='Enter or Generate'
                   autoComplete='off'
+                  autoCapitalize='off'
                   value={revealedPassword}
                   onChange={(event) => setRevealedPassword(event.target.value)}
                   css={{ flexGrow: 1 }}

@@ -95,6 +95,7 @@ export const AddPassword: React.FC = () => {
                 name='website'
                 placeholder='Website (e.g. https://google.com)'
                 autoComplete='off'
+                autoCapitalize='off'
                 required
               />
               <InputField
@@ -102,6 +103,7 @@ export const AddPassword: React.FC = () => {
                 name='login'
                 placeholder='Login (e.g. you@example.com)'
                 autoComplete='off'
+                autoCapitalize='off'
                 required
               />
               <Flex css={{ alignItems: 'flex-end', gap: '$2' }}>
@@ -111,6 +113,7 @@ export const AddPassword: React.FC = () => {
                   type='text'
                   placeholder='Enter or Generate'
                   autoComplete='off'
+                  autoCapitalize='off'
                   value={generatedPassword}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setGeneratedPassword(event.target.value)
