@@ -96,6 +96,7 @@ export const AddPassword: React.FC = () => {
                 placeholder='Website (e.g. https://google.com)'
                 autoComplete='off'
                 autoCapitalize='off'
+                defaultValue='https://'
                 required
               />
               <InputField
