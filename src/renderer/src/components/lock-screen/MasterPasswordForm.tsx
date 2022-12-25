@@ -30,6 +30,12 @@ const fadeInAnimation = keyframes({
   '100%': { opacity: 1 },
 });
 
+const ellipsisCSS: CSS = {
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+};
+
 const RegisterMasterPasswordForm: React.FC = () => {
   const { saveMasterPassword } = useMasterPassword();
   const { isBiometricsAvailable } = useBiometrics();
@@ -149,7 +155,16 @@ const VerifyMasterPasswordForm: React.FC = () => {
         }}
       >
         <Icon is={User} />
-        <Text css={{ color: '$tonal400' }}>{email}</Text>
+        <Text
+          css={{
+            color: '$tonal400',
+            maxWidth: '250px',
+            py: '$1',
+            ...ellipsisCSS,
+          }}
+        >
+          {email}
+        </Text>
       </Stack>
       <Form
         onSubmit={(data) => onSubmit(data)}
