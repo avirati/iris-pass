@@ -3,8 +3,14 @@ export interface IUseMasterPasswordContext {
   masterPassword: string | null;
   isMasterPasswordSaved: boolean;
   isUserAuthenticated: boolean;
-  saveMasterPassword: (email: string, password: string) => Promise<void>;
+  isBiometricSaved: boolean;
+  saveMasterPassword: (
+    email: string,
+    password: string,
+    enableBiometrics?: boolean
+  ) => Promise<void>;
   verifyMasterPassword: (password: string) => Promise<boolean>;
+  verifyBiometrics: () => Promise<boolean>;
   lock: () => void;
   enableLock: () => void;
   disableLock: () => void;

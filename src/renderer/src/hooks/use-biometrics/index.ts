@@ -1,0 +1,1 @@
+export { useBiometrics } from './useBiometrics';

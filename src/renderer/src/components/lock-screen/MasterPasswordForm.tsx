@@ -11,10 +11,15 @@ import {
   Text,
   Stack,
   Icon,
+  Box,
+  Image,
 } from '../../shared-components';
-import { InputField } from '../form-fields';
+import { CheckboxField, InputField } from '../form-fields';
+import { useBiometrics } from '../../hooks/use-biometrics';
+import Fingerprint from './fingerprint.svg';
 
 interface IFormData {
+  biometrics?: boolean;
   email: string;
   password: string;
   confirmPassword: string;
@@ -27,11 +32,16 @@ const fadeInAnimation = keyframes({
 
 const RegisterMasterPasswordForm: React.FC = () => {
   const { saveMasterPassword } = useMasterPassword();
+  const { isBiometricsAvailable } = useBiometrics();
 
-  const onSubmit = async ({ password, confirmPassword, email }: IFormData) => {
+  const onSubmit = async ({
+    password,
+    confirmPassword,
+    email,
+    biometrics,
+  }: IFormData) => {
     if (password === confirmPassword) {
-      await saveMasterPassword(email, password);
-      toast.success('Master Password saved!');
+      await saveMasterPassword(email, password, biometrics);
     } else {
       toast.error('Passwords do not match');
     }
@@ -74,6 +84,13 @@ const RegisterMasterPasswordForm: React.FC = () => {
                 label=''
                 required
               />
+              {isBiometricsAvailable && (
+                <CheckboxField
+                  label='Enable fingerprint based login'
+                  name='biometrics'
+                  css={{ mt: '$5' }}
+                />
+              )}
               <Button
                 type='submit'
                 css={{
@@ -98,7 +115,9 @@ const RegisterMasterPasswordForm: React.FC = () => {
 };
 
 const VerifyMasterPasswordForm: React.FC = () => {
-  const { verifyMasterPassword, email } = useMasterPassword();
+  const { isBiometricsAvailable } = useBiometrics();
+  const { verifyMasterPassword, verifyBiometrics, email, isBiometricSaved } =
+    useMasterPassword();
 
   const onSubmit = async ({ password }: Partial<IFormData>) => {
     const doesPasswordMatch = await verifyMasterPassword(password as string);
@@ -159,6 +178,14 @@ const VerifyMasterPasswordForm: React.FC = () => {
               >
                 Verify
               </Button>
+              {isBiometricsAvailable && isBiometricSaved && (
+                <Box
+                  css={{ size: '48px', mx: 'auto', mt: '$5' }}
+                  onClick={verifyBiometrics}
+                >
+                  <Image src={Fingerprint} />
+                </Box>
+              )}
             </>
           );
         }}

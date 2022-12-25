@@ -70,7 +70,7 @@ export const LockScreen: React.FC = () => {
           bg: 'black',
           flex: 1,
           justifyContent: 'center',
-          alignItems: 'center',
+          alignItems: 'flex-end',
           position: 'relative',
           animation: shouldUnlock ? `${unlockAnimation(1)} 1s` : 'none',
           animationFillMode: 'forwards',
