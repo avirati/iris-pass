@@ -42,6 +42,8 @@ const scan = async () => {
   }
 };
 
+const stop = () => BarcodeScanner.stopScan();
+
 const generate = (data: string): Promise<string> =>
   new Promise((resolve, reject) => {
     const canvas = document.createElement('canvas');
@@ -54,4 +56,5 @@ const generate = (data: string): Promise<string> =>
 export const QRCodeUtils = {
   generate,
   scan,
+  stop,
 };

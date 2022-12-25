@@ -1,13 +1,13 @@
 import React from 'react';
-import { Rotate, LockAlt, Qr } from '@atom-learning/icons';
+import { ArrowLeft, Rotate, LockAlt, Qr } from '@atom-learning/icons';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import {
   Flex,
+  Heading,
   Icon,
   keyframes,
-  Link,
   styled,
-  Text,
 } from '../../shared-components';
 import { DarkActionIcon } from '../form-fields';
 import { usePasswordSync } from '../../hooks/use-password-sync';
@@ -33,7 +33,10 @@ const StyledActionIcon = styled(DarkActionIcon, {
 export const Header: React.FC = () => {
   const { isAndroid, isElectron } = useDevice();
   const { isUserAuthenticated } = useMasterPassword();
-  const { isSyncing, startSync } = usePasswordSync();
+  const { isSyncing } = usePasswordSync();
+  const location = useLocation();
+  const history = useHistory();
+  const isHome = location.pathname === '/';
 
   return (
     <Flex
@@ -47,8 +50,7 @@ export const Header: React.FC = () => {
         top: 0,
       }}
     >
-      <Link
-        href='/#/'
+      <Flex
         css={{
           display: 'flex',
           alignItems: 'center',
@@ -57,24 +59,37 @@ export const Header: React.FC = () => {
           },
         }}
       >
-        <Icon is={LockAlt} css={{ color: '$tonal100', mr: '$2' }} />
-        <Text
-          as='span'
-          size={isAndroid ? 'md' : 'lg'}
+        {isHome ? (
+          <Icon is={LockAlt} css={{ color: '$tonal100', mr: '$2' }} />
+        ) : (
+          <StyledActionIcon
+            size='md'
+            label='go-back'
+            css={{ color: '$tonal100', mr: '$2', border: 'none', size: '24px' }}
+            onClick={() => history.goBack()}
+          >
+            <Icon is={ArrowLeft} />
+          </StyledActionIcon>
+        )}
+        <Heading
+          as='h1'
+          size='xs'
           css={{
             color: '$tonal100',
             textTransform: 'uppercase',
           }}
         >
           Password Manager
-        </Text>
-      </Link>
+        </Heading>
+      </Flex>
       {isUserAuthenticated && (
         <StyledActionIcon
           label='sync'
           loading={isAndroid && isSyncing}
-          onClick={startSync}
-          css={{ border: 'none' }}
+          onClick={() =>
+            history.push(isElectron ? '/qrcode/viewer' : '/qrcode/scanner')
+          }
+          css={{ border: 'none', size: '24px' }}
         >
           <Icon is={isElectron ? Qr : Rotate} />
         </StyledActionIcon>

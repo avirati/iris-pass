@@ -1,7 +1,15 @@
 import React from 'react';
+
 import { Box, Flex } from '../../shared-components';
+import { usePasswordSync } from '../../hooks/use-password-sync';
 
 export const QRCodeScanner: React.FC = () => {
+  const { startMobileSync, stopSync } = usePasswordSync();
+  React.useEffect(() => {
+    startMobileSync();
+    return stopSync;
+  }, [startMobileSync, stopSync]);
+
   return (
     <Flex
       css={{

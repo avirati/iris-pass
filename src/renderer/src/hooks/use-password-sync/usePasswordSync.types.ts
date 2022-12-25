@@ -1,6 +1,7 @@
 export interface IUsePasswordSyncContext {
   qrCode: string;
   isSyncing: boolean;
-  startSync: () => void;
+  startElectronSync: () => void;
+  startMobileSync: () => void;
   stopSync: () => void;
 }

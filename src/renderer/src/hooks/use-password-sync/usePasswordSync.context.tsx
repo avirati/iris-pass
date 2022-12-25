@@ -16,7 +16,8 @@ export const UsePasswordSyncContext =
   React.createContext<IUsePasswordSyncContext>({
     qrCode: '',
     isSyncing: false,
-    startSync: () => null,
+    startElectronSync: () => null,
+    startMobileSync: () => null,
     stopSync: () => null,
   });
 
@@ -91,9 +92,9 @@ export const UsePasswordSyncProvider: React.FC<{
     }
   }, [isElectron]);
 
-  const startSync = React.useCallback(async () => {
-    if (isElectron) {
-      history.push('/qrcode/viewer');
+  const startElectronSync = React.useCallback(async () => {
+    try {
+      setIsSyncing(true);
       await waitForSeconds(1);
       const encryptedEndpoint = CryptoUtil.encrypt(ip, masterPassword!);
       const data = await QRCodeUtils.generate(encryptedEndpoint);
@@ -123,52 +124,59 @@ export const UsePasswordSyncProvider: React.FC<{
         window.api.stopSyncServer();
         history.replace('/');
       });
-    } else if (isAndroid) {
-      setIsSyncing(true);
-      history.push('/qrcode/scanner');
-      try {
-        const data = await QRCodeUtils.scan();
-        if (data) {
-          const decryptedEndpoint = CryptoUtil.decrypt(data, masterPassword!);
-          const isValidEndpoint = validateIP(decryptedEndpoint);
-          if (isValidEndpoint) {
-            const input = String(Date.now());
-            const data = await UsePasswordSyncRepository.sync(
-              decryptedEndpoint,
-              {
-                input,
-                output: CryptoUtil.encrypt(input, masterPassword!),
-                passwords,
-              }
-            );
-            if (data.success) {
-              toast.success('Handshake successful');
-              passwordStore.setItems(data.passwords).then(() => {
-                toast.success('Device passwords synced');
-                refresh();
-              });
-            } else {
-              toast.error('Handshake unsuccessful');
-            }
-          } else {
-            toast.error(
-              'Unable to sync. Your identity did not match with the other device'
-            );
-          }
-          history.replace('/');
-        }
-      } catch (error) {
-        toast.error((error as Error).message);
-      } finally {
-        await waitForSeconds(3);
-        setIsSyncing(false);
-      }
+    } catch (error) {
+      toast.error((error as Error).message);
+    } finally {
+      await waitForSeconds(3);
+      setIsSyncing(false);
     }
-  }, [history, ip, isAndroid, isElectron, masterPassword, passwords, refresh]);
+  }, [history, ip, masterPassword, passwords, refresh]);
+
+  const startMobileSync = React.useCallback(async () => {
+    try {
+      setIsSyncing(true);
+      const data = await QRCodeUtils.scan();
+      if (data) {
+        const decryptedEndpoint = CryptoUtil.decrypt(data, masterPassword!);
+        const isValidEndpoint = validateIP(decryptedEndpoint);
+        if (isValidEndpoint) {
+          const input = String(Date.now());
+          const data = await UsePasswordSyncRepository.sync(decryptedEndpoint, {
+            input,
+            output: CryptoUtil.encrypt(input, masterPassword!),
+            passwords,
+          });
+          if (data.success) {
+            toast.success('Handshake successful');
+            passwordStore.setItems(data.passwords).then(() => {
+              toast.success('Device passwords synced');
+              refresh();
+            });
+          } else {
+            toast.error('Handshake unsuccessful');
+          }
+        } else {
+          toast.error(
+            'Unable to sync. Your identity did not match with the other device'
+          );
+        }
+      }
+    } catch (error) {
+      toast.error((error as Error).message);
+    } finally {
+      history.replace('/');
+      await QRCodeUtils.stop();
+      await waitForSeconds(3);
+      setIsSyncing(false);
+    }
+  }, [history, masterPassword, passwords, refresh]);
 
   const stopSync = React.useCallback(async () => {
+    setIsSyncing(false);
     if (isElectron) {
       window.api.stopSyncServer();
+    } else {
+      await QRCodeUtils.stop();
     }
   }, [isElectron]);
 
@@ -177,7 +185,8 @@ export const UsePasswordSyncProvider: React.FC<{
       value={{
         qrCode,
         isSyncing,
-        startSync,
+        startElectronSync,
+        startMobileSync,
         stopSync,
       }}
     >
