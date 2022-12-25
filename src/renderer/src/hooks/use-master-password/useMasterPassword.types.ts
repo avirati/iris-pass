@@ -4,4 +4,5 @@ export interface IUseMasterPasswordContext {
   isUserAuthenticated: boolean;
   saveMasterPassword: (password: string) => Promise<void>;
   verifyMasterPassword: (password: string) => Promise<boolean>;
+  lock: () => void;
 }

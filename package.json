@@ -11,6 +11,7 @@
     "@atom-learning/theme": "^1.0.1",
     "@capacitor-community/barcode-scanner": "^3.0.1",
     "@capacitor/android": "^4.6.1",
+    "@capacitor/app": "^4.1.1",
     "@capacitor/core": "^4.6.1",
     "@electron-toolkit/preload": "^1.0.2",
     "@electron-toolkit/utils": "^1.0.2",

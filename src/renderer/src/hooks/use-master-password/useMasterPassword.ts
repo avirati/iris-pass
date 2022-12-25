@@ -10,19 +10,7 @@ export const useMasterPassword = () => {
     );
   }
 
-  const {
-    masterPassword,
-    isUserAuthenticated,
-    isMasterPasswordSaved,
-    saveMasterPassword,
-    verifyMasterPassword,
-  } = context;
-
   return {
-    masterPassword,
-    isUserAuthenticated,
-    isMasterPasswordSaved,
-    saveMasterPassword,
-    verifyMasterPassword,
+    ...context,
   };
 };

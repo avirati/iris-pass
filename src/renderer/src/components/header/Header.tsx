@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowLeft, Rotate, LockAlt, Qr } from '@atom-learning/icons';
 import { useHistory, useLocation } from 'react-router-dom';
+import { App as CapacitorApp } from '@capacitor/app';
 
 import {
   Flex,
@@ -32,11 +33,25 @@ const StyledActionIcon = styled(DarkActionIcon, {
 
 export const Header: React.FC = () => {
   const { isAndroid, isElectron } = useDevice();
-  const { isUserAuthenticated } = useMasterPassword();
+  const { isUserAuthenticated, lock } = useMasterPassword();
   const { isSyncing } = usePasswordSync();
   const location = useLocation();
   const history = useHistory();
   const isHome = location.pathname === '/';
+
+  React.useEffect(() => {
+    if (isAndroid) {
+      CapacitorApp.removeAllListeners();
+      CapacitorApp.addListener('backButton', () => {
+        if (!isHome) {
+          history.goBack();
+        } else {
+          CapacitorApp.exitApp();
+        }
+      });
+      CapacitorApp.addListener('pause', lock);
+    }
+  }, [history, isAndroid, isHome, lock]);
 
   return (
     <Flex

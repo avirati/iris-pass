@@ -21,6 +21,7 @@ export const UseMasterPasswordContext =
     isUserAuthenticated: false,
     saveMasterPassword: () => Promise.resolve(),
     verifyMasterPassword: () => Promise.resolve(false),
+    lock: () => null,
   });
 
 export const UseMasterPasswordProvider: React.FC<{
@@ -74,6 +75,8 @@ export const UseMasterPasswordProvider: React.FC<{
     }
   };
 
+  const lock = () => setMasterPassword(null);
+
   return (
     <UseMasterPasswordContext.Provider
       value={{
@@ -82,6 +85,7 @@ export const UseMasterPasswordProvider: React.FC<{
         isMasterPasswordSaved,
         saveMasterPassword,
         verifyMasterPassword,
+        lock,
       }}
     >
       {children}
