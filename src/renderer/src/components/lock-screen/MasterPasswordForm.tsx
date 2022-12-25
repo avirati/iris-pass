@@ -1,17 +1,21 @@
 import React from 'react';
+import { User } from '@atom-learning/icons';
 
 import { useMasterPassword } from '../../hooks/use-master-password';
 import {
   Button,
   Form,
-  PasswordField,
-  CSS,
   toast,
   keyframes,
   Flex,
+  Text,
+  Stack,
+  Icon,
 } from '../../shared-components';
+import { InputField } from '../form-fields';
 
 interface IFormData {
+  email: string;
   password: string;
   confirmPassword: string;
 }
@@ -21,24 +25,12 @@ const fadeInAnimation = keyframes({
   '100%': { opacity: 1 },
 });
 
-const passwordFieldCSS: CSS = {
-  'input, input:focus, input:active': {
-    color: '$tonal400',
-    borderColor: '$tonal400',
-    bg: 'transparent',
-  },
-  'input:focus': {
-    borderColor: '$tonal100',
-    color: '$tonal100',
-  },
-};
-
 const RegisterMasterPasswordForm: React.FC = () => {
   const { saveMasterPassword } = useMasterPassword();
 
-  const onSubmit = async ({ password, confirmPassword }: IFormData) => {
+  const onSubmit = async ({ password, confirmPassword, email }: IFormData) => {
     if (password === confirmPassword) {
-      await saveMasterPassword(password);
+      await saveMasterPassword(email, password);
       toast.success('Master Password saved!');
     } else {
       toast.error('Passwords do not match');
@@ -61,19 +53,26 @@ const RegisterMasterPasswordForm: React.FC = () => {
         render={() => {
           return (
             <>
-              <PasswordField
+              <InputField
+                name='email'
+                type='email'
+                placeholder='Enter Your Email'
+                label=''
+                required
+              />
+              <InputField
                 name='password'
+                type='password'
                 placeholder='Enter Master Password'
                 label=''
                 required
-                css={passwordFieldCSS}
               />
-              <PasswordField
+              <InputField
                 name='confirmPassword'
+                type='password'
                 placeholder='Repeat Master Password'
                 label=''
                 required
-                css={passwordFieldCSS}
               />
               <Button
                 type='submit'
@@ -99,7 +98,7 @@ const RegisterMasterPasswordForm: React.FC = () => {
 };
 
 const VerifyMasterPasswordForm: React.FC = () => {
-  const { verifyMasterPassword } = useMasterPassword();
+  const { verifyMasterPassword, email } = useMasterPassword();
 
   const onSubmit = async ({ password }: Partial<IFormData>) => {
     const doesPasswordMatch = await verifyMasterPassword(password as string);
@@ -121,17 +120,29 @@ const VerifyMasterPasswordForm: React.FC = () => {
         '@sm': { width: '300px' },
       }}
     >
+      <Stack
+        css={{
+          color: '$tonal400',
+          border: '1px solid $tonal400',
+          borderRadius: '$0',
+          px: '$3',
+          py: '$2',
+        }}
+      >
+        <Icon is={User} />
+        <Text css={{ color: '$tonal400' }}>{email}</Text>
+      </Stack>
       <Form
         onSubmit={(data) => onSubmit(data)}
         render={() => {
           return (
             <>
-              <PasswordField
+              <InputField
                 name='password'
+                type='password'
                 placeholder='Enter Master Password'
                 label=''
                 required
-                css={passwordFieldCSS}
               />
               <Button
                 type='submit'

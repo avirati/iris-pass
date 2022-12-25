@@ -75,11 +75,14 @@ export const LockScreen: React.FC = () => {
           animation: shouldUnlock ? `${unlockAnimation(1)} 1s` : 'none',
           animationFillMode: 'forwards',
           animationDelay: '1s',
-          borderTop: '1px solid $tonal200',
+          '@media only screen and (min-height: 500px)': {
+            borderTop: '1px solid $tonal200',
+          },
         }}
       >
         <Flex
           css={{
+            display: 'none',
             alignItems: 'center',
             justifyContent: 'center',
             border: '1px solid $tonal200',
@@ -94,6 +97,9 @@ export const LockScreen: React.FC = () => {
             '&:hover, &:active, &:focus': {
               color: '$tonal200 !important',
               bg: '$tonal600 !important',
+            },
+            '@media only screen and (min-height: 500px)': {
+              display: 'flex',
             },
           }}
         >

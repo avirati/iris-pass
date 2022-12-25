@@ -2,13 +2,19 @@ import React from 'react';
 
 import { Box, Flex } from '../../shared-components';
 import { usePasswordSync } from '../../hooks/use-password-sync';
+import { useMasterPassword } from '../../hooks/use-master-password';
 
 export const QRCodeScanner: React.FC = () => {
+  const { disableLock, enableLock } = useMasterPassword();
   const { startMobileSync, stopSync } = usePasswordSync();
   React.useEffect(() => {
+    disableLock();
     startMobileSync();
-    return stopSync;
-  }, [startMobileSync, stopSync]);
+    return () => {
+      enableLock();
+      stopSync();
+    };
+  }, [disableLock, enableLock, startMobileSync, stopSync]);
 
   return (
     <Flex
