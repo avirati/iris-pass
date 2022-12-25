@@ -1,5 +1,5 @@
 import React from 'react';
-import { Ok, Copy } from '@atom-learning/icons';
+import { Ok, Copy, Refresh } from '@atom-learning/icons';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { Flex, Form, Icon } from '../../shared-components';
@@ -31,6 +31,7 @@ export const EditPassword: React.FC = () => {
   const [useUppercaseChars, setUseUppercaseChars] =
     React.useState<boolean>(false);
   const [useSymbols, setUseSymbols] = React.useState<boolean>(false);
+  const [refreshIndex, setRefreshIndex] = React.useState<number>(0);
 
   const { getPassword, getPasswordEntry, updatePassword, copyPassword } =
     usePasswords();
@@ -92,7 +93,14 @@ export const EditPassword: React.FC = () => {
       useUppercaseChars,
     });
     setRevealedPassword(password);
-  }, [passwordLength, useLetters, useNumbers, useUppercaseChars, useSymbols]);
+  }, [
+    passwordLength,
+    useLetters,
+    useNumbers,
+    useUppercaseChars,
+    useSymbols,
+    refreshIndex,
+  ]);
 
   return (
     <ContentContainer>
@@ -149,6 +157,13 @@ export const EditPassword: React.FC = () => {
                   onChange={(event) => setRevealedPassword(event.target.value)}
                   css={{ flexGrow: 1 }}
                 />
+                <DarkActionIcon
+                  label='regenerate-password'
+                  size='lg'
+                  onClick={() => setRefreshIndex(refreshIndex + 1)}
+                >
+                  <Icon is={Refresh} />
+                </DarkActionIcon>
                 <DarkActionIcon
                   label='copy-password'
                   appearance='outline'
