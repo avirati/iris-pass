@@ -4,9 +4,11 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { App as CapacitorApp } from '@capacitor/app';
 
 import {
+  Box,
   Flex,
   Heading,
   Icon,
+  Image,
   keyframes,
   styled,
 } from '../../shared-components';
@@ -75,7 +77,9 @@ export const Header: React.FC = () => {
         }}
       >
         {isHome ? (
-          <Icon is={LockAlt} css={{ color: '$tonal100', mr: '$2' }} />
+          <Box css={{ size: '24px', mr: '$2' }}>
+            <Image src='/icon.svg' />
+          </Box>
         ) : (
           <StyledActionIcon
             size='md'
@@ -91,10 +95,9 @@ export const Header: React.FC = () => {
           size='xs'
           css={{
             color: '$tonal100',
-            textTransform: 'uppercase',
           }}
         >
-          Password Manager
+          IRISPass
         </Heading>
       </Flex>
       {isUserAuthenticated && (

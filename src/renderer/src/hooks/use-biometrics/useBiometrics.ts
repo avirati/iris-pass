@@ -1,7 +1,7 @@
 import React from 'react';
 import { NativeBiometric } from 'capacitor-native-biometric';
 
-const server = 'password-manager.avinashv.dev';
+const server = 'iris-pass.avinashv.dev';
 
 export const useBiometrics = () => {
   const [isBiometricsAvailable, setIsBiometricsAvailable] =
@@ -25,7 +25,7 @@ export const useBiometrics = () => {
   const verifyCredentials = async () => {
     try {
       await NativeBiometric.verifyIdentity({
-        title: 'Password Manager',
+        title: 'IRISPass',
         subtitle: 'Biometric Authentication',
       });
 
@@ -38,7 +38,7 @@ export const useBiometrics = () => {
   const verifyIdentity = async () => {
     try {
       await NativeBiometric.verifyIdentity({
-        title: 'Password Manager',
+        title: 'IRISPass',
         subtitle: 'Biometric Authentication',
       });
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Box, Flex, keyframes, Heading } from '../../shared-components';
+import { Box, Flex, keyframes, Heading, Image } from '../../shared-components';
 import { useMasterPassword } from '../../hooks/use-master-password';
 import { waitForSeconds } from '../../utils';
 
@@ -12,11 +12,6 @@ const unlockAnimation = (direction: -1 | 1) =>
     '80%': { transform: `translateY(${30 * direction}%)` },
     '100%': { transform: `translateY(${120 * direction}%)` },
   });
-
-const rotateAnimation = keyframes({
-  '0%': { transform: 'rotate(0deg)' },
-  '100%': { transform: 'rotate(180deg)' },
-});
 
 export const LockScreen: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
@@ -56,14 +51,7 @@ export const LockScreen: React.FC = () => {
           animationDelay: '1s',
         }}
       >
-        <Heading
-          css={{
-            color: '$tonal200',
-            textTransform: 'uppercase',
-          }}
-        >
-          Password Manager
-        </Heading>
+        <Heading css={{ color: '$tonal200' }}>IRISPass</Heading>
       </Flex>
       <Flex
         css={{
@@ -92,8 +80,6 @@ export const LockScreen: React.FC = () => {
             position: 'absolute',
             bg: '$tonal600',
             outline: 'none',
-            p: '33px 46px',
-            animation: shouldUnlock ? `${rotateAnimation} 0.5s` : 'none',
             '&:hover, &:active, &:focus': {
               color: '$tonal200 !important',
               bg: '$tonal600 !important',
@@ -105,11 +91,11 @@ export const LockScreen: React.FC = () => {
         >
           <Box
             css={{
-              width: '5px',
-              height: '30px',
-              bg: '$tonal200',
+              size: '100px',
             }}
-          />
+          >
+            <Image src='/icon.svg' />
+          </Box>
         </Flex>
         <MasterPasswordForm />
       </Flex>

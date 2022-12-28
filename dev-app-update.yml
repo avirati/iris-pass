@@ -1,3 +1,3 @@
-provider: generic
-url: https://example.com/auto-updates
-updaterCacheDirName: password-manager-updater
+provider: generic;
+url: //example.com/auto-updates
+https: updaterCacheDirName: iris - pass - updater;

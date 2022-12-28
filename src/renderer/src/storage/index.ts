@@ -1,9 +1,9 @@
 import { Storage } from './storage';
 
 export const masterPasswordStore = new Storage(
-  'password-manager-master-password-store'
+  'iris-pass-master-password-store'
 );
 
-export const deviceStore = new Storage('password-manager-device-store');
+export const deviceStore = new Storage('iris-pass-device-store');
 
-export const passwordStore = new Storage('password-manager');
+export const passwordStore = new Storage('iris-pass');

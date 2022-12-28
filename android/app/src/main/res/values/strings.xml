@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Password Manager</string>
-    <string name="title_activity_main">Password Manager</string>
-    <string name="package_name">dev.avinash.passwordmanager</string>
-    <string name="custom_url_scheme">dev.avinash.passwordmanager</string>
+    <string name="app_name">IRISPass</string>
+    <string name="title_activity_main">IRISPass</string>
+    <string name="package_name">dev.avinashv.iris-pass</string>
+    <string name="custom_url_scheme">dev.avinashv.iris-pass</string>
 </resources>

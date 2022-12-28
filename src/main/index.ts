@@ -13,11 +13,7 @@ function createWindow(): void {
     height: 667,
     show: false,
     autoHideMenuBar: true,
-    ...(process.platform === 'linux'
-      ? {
-          icon: path.join(__dirname, '../../build/icon.png'),
-        }
-      : {}),
+    icon: path.join(__dirname, '../../build/icon.svg'),
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
       sandbox: false,
