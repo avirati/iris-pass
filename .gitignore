@@ -121,3 +121,6 @@ out
 .env.production.local
 
 *.log*
+
+resources/android
+resources/ios

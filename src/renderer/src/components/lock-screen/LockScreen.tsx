@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Flex, keyframes, Heading, Image } from '../../shared-components';
 import { useMasterPassword } from '../../hooks/use-master-password';
 import { waitForSeconds } from '../../utils';
+import AppIcon from '../../../icon.svg';
 
 import { MasterPasswordForm } from './MasterPasswordForm';
 
@@ -94,7 +95,7 @@ export const LockScreen: React.FC = () => {
               size: '100px',
             }}
           >
-            <Image src='/icon.svg' />
+            <Image src={AppIcon} />
           </Box>
         </Flex>
         <MasterPasswordForm />

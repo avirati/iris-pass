@@ -1,7 +1,8 @@
 import React from 'react';
-import { ArrowLeft, Rotate, LockAlt, Qr } from '@atom-learning/icons';
+import { ArrowLeft, Rotate, Qr } from '@atom-learning/icons';
 import { useHistory, useLocation } from 'react-router-dom';
 import { App as CapacitorApp } from '@capacitor/app';
+import AppIcon from '../../../icon.svg';
 
 import {
   Box,
@@ -78,7 +79,7 @@ export const Header: React.FC = () => {
       >
         {isHome ? (
           <Box css={{ size: '24px', mr: '$2' }}>
-            <Image src='/icon.svg' />
+            <Image src={AppIcon} />
           </Box>
         ) : (
           <StyledActionIcon
