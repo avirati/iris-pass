@@ -1,4 +1,4 @@
-package dev.avinash.passwordmanager;
+package dev.avinashv.irispass;
 
 import com.getcapacitor.BridgeActivity;
 

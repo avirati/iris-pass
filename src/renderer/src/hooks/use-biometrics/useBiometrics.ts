@@ -1,7 +1,7 @@
 import React from 'react';
 import { NativeBiometric } from 'capacitor-native-biometric';
 
-const server = 'iris-pass.avinashv.dev';
+const server = 'irispass.avinashv.dev';
 
 export const useBiometrics = () => {
   const [isBiometricsAvailable, setIsBiometricsAvailable] =

@@ -8,7 +8,7 @@ export class Storage {
   constructor(storeName: string) {
     this.store = localForage.createInstance({
       driver: localForage.INDEXEDDB,
-      name: 'iris-pass',
+      name: 'irispass',
       version: 1.0,
       storeName: storeName,
       description: 'IRISPass DB Store',

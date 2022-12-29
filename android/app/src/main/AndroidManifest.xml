@@ -2,7 +2,7 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="dev.avinash.passwordmanager">
+    package="dev.avinashv.irispass">
     <application
         android:usesCleartextTraffic="true"
         android:hardwareAccelerated="true"
@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
-            android:name="dev.avinash.passwordmanager.MainActivity"
+            android:name="dev.avinashv.irispass.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBarLaunch"
             android:launchMode="singleTask"
