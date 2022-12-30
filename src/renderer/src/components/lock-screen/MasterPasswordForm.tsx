@@ -13,6 +13,7 @@ import {
   Icon,
   Box,
   Image,
+  CSS,
 } from '../../shared-components';
 import { CheckboxField, InputField } from '../form-fields';
 import { useBiometrics } from '../../hooks/use-biometrics';

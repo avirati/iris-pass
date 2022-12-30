@@ -6,6 +6,7 @@ import { parseWebsite } from '../../utils';
 
 interface IPasswordCard {
   password: IPassword;
+  css?: CSS;
 }
 
 const ellipsisCSS: CSS = {
@@ -14,7 +15,7 @@ const ellipsisCSS: CSS = {
   textOverflow: 'ellipsis',
 };
 
-export const PasswordCard: React.FC<IPasswordCard> = ({ password }) => {
+export const PasswordCard: React.FC<IPasswordCard> = ({ password, css }) => {
   const { website, login, id } = password;
   const { heroLetter, hostname } = parseWebsite(website);
 
@@ -28,6 +29,7 @@ export const PasswordCard: React.FC<IPasswordCard> = ({ password }) => {
           color: '$tonal100',
           textDecoration: 'none',
         },
+        ...css,
       }}
       href={`#/password/view/${id}`}
     >
@@ -56,7 +58,7 @@ export const PasswordCard: React.FC<IPasswordCard> = ({ password }) => {
         css={{
           flexDirection: 'column',
           justifyContent: 'center',
-          gap: '$3',
+          gap: '$2',
           maxWidth: '250px',
         }}
       >

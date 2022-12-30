@@ -63,7 +63,7 @@ export const ViewPassword: React.FC = () => {
       <PasswordCard password={fetchedPassword} />
       <Flex css={{ justifyContent: 'space-between' }}>
         <DarkActionIcon
-          size='xl'
+          size='md'
           label='delete-password'
           href={`#/password/delete/${id}`}
           css={{ border: 'none', size: '$2' }}
@@ -71,7 +71,7 @@ export const ViewPassword: React.FC = () => {
           <Icon is={Bin} />
         </DarkActionIcon>
         <DarkActionIcon
-          size='xl'
+          size='md'
           label='edit-password'
           href={`#/password/edit/${id}`}
           css={{ border: 'none', size: '$2' }}

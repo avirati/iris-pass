@@ -124,14 +124,14 @@ export const AddPassword: React.FC = () => {
                 />
                 <DarkActionIcon
                   label='regenerate-password'
-                  size='lg'
+                  size='md'
                   onClick={() => setRefreshIndex(refreshIndex + 1)}
                 >
                   <Icon is={Refresh} />
                 </DarkActionIcon>
                 <DarkActionIcon
                   label='copy-password'
-                  size='lg'
+                  size='md'
                   onClick={copyPasswordToClipboard}
                 >
                   <Icon is={passwordCopied ? Ok : Copy} />

@@ -34,7 +34,7 @@ export const EnhancedInput: React.FC<IEnhancedInputProps> = ({
         <DarkActionIcon
           label='copy-value'
           appearance='outline'
-          size='lg'
+          size='md'
           onClick={onCopyClicked}
           css={{ minWidth: '40px' }}
         >
@@ -45,7 +45,7 @@ export const EnhancedInput: React.FC<IEnhancedInputProps> = ({
         <DarkActionIcon
           label={visible ? 'hide-value' : 'reveal-value'}
           appearance='outline'
-          size='lg'
+          size='md'
           onClick={onVisibilityToggle}
           css={{ minWidth: '40px' }}
         >

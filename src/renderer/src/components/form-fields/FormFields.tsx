@@ -9,25 +9,23 @@ import {
   CSS,
 } from '../../shared-components';
 
-const fieldCSS: CSS = {
-  '& *': {
-    color: '$tonal200',
+export const fieldCSS: CSS = {
+  color: '$tonal200',
+  backgroundColor: 'transparent',
+  '&:focus': {
+    borderColor: '$tonal100',
+  },
+  outline: 'none !important',
+  '&[data-state=checked]': {
     backgroundColor: 'transparent',
-    '&:focus': {
-      borderColor: '$tonal100',
+    borderColor: '$tonal200',
+    '& svg > polyline': {
+      color: '$tonal200',
     },
-    outline: 'none !important',
-    '&[data-state=checked]': {
-      backgroundColor: 'transparent',
-      borderColor: '$tonal200',
-      '& svg > polyline': {
-        color: '$tonal200',
-      },
-    },
-    '&[class$="state-error"]': {
-      color: 'white',
-      borderColor: 'white',
-    },
+  },
+  '&[class$="state-error"]': {
+    color: 'white',
+    borderColor: 'white',
   },
 };
 
@@ -35,28 +33,28 @@ export const InputField: React.FC<
   React.ComponentProps<typeof BaseInputField>
 > = (props: any) => {
   const { css, ...rest } = props;
-  return <BaseInputField css={{ ...fieldCSS, ...css }} {...rest} />;
+  return <BaseInputField css={{ '& *': fieldCSS, ...css }} {...rest} />;
 };
 
 export const SelectField: React.FC<
   React.ComponentProps<typeof BaseSelectField>
 > = (props: any) => {
   const { css, ...rest } = props;
-  return <BaseSelectField css={{ ...fieldCSS, ...css }} {...rest} />;
+  return <BaseSelectField css={{ '& *': fieldCSS, ...css }} {...rest} />;
 };
 
 export const SliderField: React.FC<
   React.ComponentProps<typeof BaseSliderField>
 > = (props: any) => {
   const { css, ...rest } = props;
-  return <BaseSliderField css={{ ...fieldCSS, ...css }} {...rest} />;
+  return <BaseSliderField css={{ '& *': fieldCSS, ...css }} {...rest} />;
 };
 
 export const CheckboxField: React.FC<
   React.ComponentProps<typeof BaseCheckboxField>
 > = (props: any) => {
   const { css, ...rest } = props;
-  return <BaseCheckboxField css={{ ...fieldCSS, ...css }} {...rest} />;
+  return <BaseCheckboxField css={{ '& *': fieldCSS, ...css }} {...rest} />;
 };
 
 export const DarkButton: React.FC<React.ComponentProps<typeof Button>> = (

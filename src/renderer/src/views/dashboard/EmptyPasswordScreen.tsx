@@ -5,13 +5,8 @@ import { EmptyState, Icon } from '../../shared-components';
 
 export const EmptyPasswordScreen: React.FC = () => {
   return (
-    <EmptyState size='sm' css={{ my: 'auto' }}>
-      <EmptyState.Image
-        as={Icon}
-        is={Dashboard}
-        size='xl'
-        css={{ color: '$tonal200' }}
-      />
+    <EmptyState size='sm' css={{ my: 'auto', '& svg': { size: '84px' } }}>
+      <EmptyState.Image as={Icon} is={Dashboard} css={{ color: '$tonal200' }} />
       <EmptyState.Title css={{ color: '$tonal200' }}>
         No passwords found!
       </EmptyState.Title>
