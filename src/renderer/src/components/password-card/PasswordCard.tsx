@@ -29,7 +29,7 @@ export const PasswordCard: React.FC<IPasswordCard> = ({ password }) => {
           textDecoration: 'none',
         },
       }}
-      href={`/#/password/view/${id}`}
+      href={`#/password/view/${id}`}
     >
       <Flex
         css={{
@@ -63,11 +63,11 @@ export const PasswordCard: React.FC<IPasswordCard> = ({ password }) => {
         <Heading
           as='h3'
           size='md'
-          css={{ pb: '$0', color: '$tonal200', ...ellipsisCSS }}
+          css={{ pb: '$1', color: '$tonal200', ...ellipsisCSS }}
         >
           {hostname}
         </Heading>
-        <Text size='sm' css={{ pb: '$0', color: '$tonal200', ...ellipsisCSS }}>
+        <Text size='sm' css={{ pb: '$1', color: '$tonal200', ...ellipsisCSS }}>
           {login}
         </Text>
       </Flex>

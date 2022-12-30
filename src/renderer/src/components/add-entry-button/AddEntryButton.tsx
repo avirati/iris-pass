@@ -6,7 +6,7 @@ import { Button, Icon } from '../../shared-components';
 export const AddEntryButton: React.FC = () => {
   return (
     <Button
-      href='/#/password/add'
+      href='#/password/add'
       size='lg'
       appearance='outline'
       theme='neutral'

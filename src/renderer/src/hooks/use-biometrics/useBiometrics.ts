@@ -1,17 +1,22 @@
 import React from 'react';
 import { NativeBiometric } from 'capacitor-native-biometric';
 
+import { useDevice } from '../use-device';
+
 const server = 'irispass.avinashv.dev';
 
 export const useBiometrics = () => {
   const [isBiometricsAvailable, setIsBiometricsAvailable] =
     React.useState<boolean>(false);
 
+  const { isAndroid } = useDevice();
   React.useEffect(() => {
-    NativeBiometric.isAvailable().then(({ isAvailable }) =>
-      setIsBiometricsAvailable(isAvailable)
-    );
-  }, []);
+    if (isAndroid) {
+      NativeBiometric.isAvailable().then(({ isAvailable }) =>
+        setIsBiometricsAvailable(isAvailable)
+      );
+    }
+  }, [isAndroid]);
 
   const saveCredentials = async (email: string, password: string) =>
     NativeBiometric.setCredentials({

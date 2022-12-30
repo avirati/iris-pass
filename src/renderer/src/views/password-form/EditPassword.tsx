@@ -52,7 +52,7 @@ export const EditPassword: React.FC = () => {
       website,
       id,
     });
-    history.replace(`/#/password/view/${id}`);
+    history.replace(`#/password/view/${id}`);
   };
 
   const copyPasswordToClipboard = async () => {

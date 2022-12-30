@@ -65,7 +65,7 @@ export const ViewPassword: React.FC = () => {
         <DarkActionIcon
           size='xl'
           label='delete-password'
-          href={`/#/password/delete/${id}`}
+          href={`#/password/delete/${id}`}
           css={{ border: 'none', size: '$2' }}
         >
           <Icon is={Bin} />
@@ -73,7 +73,7 @@ export const ViewPassword: React.FC = () => {
         <DarkActionIcon
           size='xl'
           label='edit-password'
-          href={`/#/password/edit/${id}`}
+          href={`#/password/edit/${id}`}
           css={{ border: 'none', size: '$2' }}
         >
           <Icon is={Edit} />
