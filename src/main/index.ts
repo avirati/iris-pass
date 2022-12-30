@@ -13,11 +13,16 @@ function createWindow(): void {
     height: 667,
     show: false,
     autoHideMenuBar: true,
-    icon: path.join(__dirname, '../../build/icon.svg'),
+    icon: path.join(__dirname, '../../build/icon.png'),
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
       sandbox: false,
     },
+    resizable: false,
+    alwaysOnTop: true,
+    center: true,
+    fullscreenable: false,
+    hasShadow: true,
   });
 
   mainWindow.on('ready-to-show', () => {
@@ -32,7 +37,7 @@ function createWindow(): void {
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
   } else {
     mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));

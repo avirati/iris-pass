@@ -1,5 +1,5 @@
 appId: dev.avinashv.irispass
-productName: irispass
+productName: IRISPass
 directories:
   buildResources: build
 files:
