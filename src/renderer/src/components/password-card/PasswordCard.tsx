@@ -65,7 +65,7 @@ export const PasswordCard: React.FC<IPasswordCard> = ({ password, css }) => {
         <Heading
           as='h3'
           size='md'
-          css={{ pb: '$1', color: '$tonal200', ...ellipsisCSS }}
+          css={{ pb: '$2', color: '$tonal200', ...ellipsisCSS }}
         >
           {hostname}
         </Heading>
