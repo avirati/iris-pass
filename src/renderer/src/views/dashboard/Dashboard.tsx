@@ -38,7 +38,12 @@ export const Dashboard: React.FC = () => {
             <DataTable.GlobalFilter
               label=''
               name=''
-              css={{ '& > input': { ...fieldCSS } }}
+              css={{
+                position: 'sticky',
+                top: '-$5',
+                bg: '$tonal500',
+                '& > input': { ...fieldCSS },
+              }}
             />
             <Table>
               <DataTable.Body
