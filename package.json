@@ -1,6 +1,6 @@
 {
   "name": "irispass",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "main": "./out/main/index.js",
   "private": false,
   "author": "Avinash Verma <avinashverma.it@gmail.com>",
@@ -90,6 +90,7 @@
     "@typescript-eslint/parser": "^5.47.0",
     "@vitejs/plugin-react": "^2.2.0",
     "@vitejs/plugin-react-swc": "^3.0.1",
+    "capacitor-set-version": "^2.0.13",
     "electron": "^21.3.0",
     "electron-builder": "^23.6.0",
     "electron-vite": "^1.0.14",
