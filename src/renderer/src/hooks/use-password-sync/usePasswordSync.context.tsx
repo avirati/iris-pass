@@ -80,7 +80,7 @@ export const UsePasswordSyncProvider: React.FC<{
   const [ip, setIP] = React.useState<string>('');
   const [qrCode, setQRCode] = React.useState<string>('');
   const [isSyncing, setIsSyncing] = React.useState<boolean>(false);
-  const { isAndroid, isElectron } = useDevice();
+  const { isElectron } = useDevice();
   const { masterPassword } = useMasterPassword();
   const history = useHistory();
   const { passwords, refresh } = usePasswords();

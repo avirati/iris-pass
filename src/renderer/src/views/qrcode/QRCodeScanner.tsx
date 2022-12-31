@@ -14,7 +14,7 @@ export const QRCodeScanner: React.FC = () => {
       enableLock();
       stopSync();
     };
-  }, [disableLock, enableLock, startMobileSync, stopSync]);
+  }, []);
 
   return (
     <Flex

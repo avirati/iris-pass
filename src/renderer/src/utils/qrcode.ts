@@ -10,15 +10,15 @@ import { waitForSeconds } from '../utils';
 const scan = async () => {
   // Check camera permission
   // This is just a simple example, check out the better checks below
-  const { granted } = await BarcodeScanner.checkPermission({ force: true });
+  const { denied } = await BarcodeScanner.checkPermission({ force: true });
 
-  if (!granted) {
-    toast.error(
+  if (denied) {
+    toast(
       'We need the permission to use Camera in order to sync passwords, please allow it in App Settings.',
       { duration: 2000 }
     );
 
-    await waitForSeconds(2);
+    await waitForSeconds(3);
     await BarcodeScanner.openAppSettings();
 
     return;
