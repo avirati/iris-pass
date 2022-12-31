@@ -1,6 +1,6 @@
 {
   "name": "irispass",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "main": "./out/main/index.js",
   "private": false,
   "author": "Avinash Verma <avinashverma.it@gmail.com>",
