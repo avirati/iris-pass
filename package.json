@@ -50,7 +50,7 @@
     "electron:build:linux": "yarn clean && yarn electron:build && electron-builder --linux --config",
     "capacitor:copy:assets": "capacitor-assets generate --android --iconBackgroundColor '#eeeeee' --iconBackgroundColorDark '#222222' --splashBackgroundColor '#eeeeee' --splashBackgroundColorDark '#111111'",
     "capacitor:prepare:android": "yarn build && yarn capacitor:copy:assets && cap sync",
-    "capacitor:run:android": "yarn capacitor:prepare:android && cap run android",
+    "capacitor:run:android": "yarn clean && yarn capacitor:prepare:android && cap run android",
     "capacitor:build:android": "yarn capacitor:prepare:android && env-cmd cap build android",
     "build:desktop": "yarn clean && yarn electron:build && electron-builder -mwl --config",
     "build:mobile": "yarn clean && yarn capacitor:build:android"
