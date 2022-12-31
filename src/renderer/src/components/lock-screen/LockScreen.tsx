@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
-import { Box, Flex, keyframes, Heading, Image } from '../../shared-components';
+import {
+  Box,
+  Flex,
+  keyframes,
+  Heading,
+  Image,
+  Text,
+  Link,
+} from '../../shared-components';
 import { useMasterPassword } from '../../hooks/use-master-password';
 import { waitForSeconds } from '../../utils';
 import AppIcon from '../../../icon.svg';
@@ -45,6 +53,8 @@ export const LockScreen: React.FC = () => {
         css={{
           bg: 'black',
           flex: 1,
+          gap: '$4',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           animation: shouldUnlock ? `${unlockAnimation(-1)} 1s` : 'none',
@@ -52,7 +62,25 @@ export const LockScreen: React.FC = () => {
           animationDelay: '1s',
         }}
       >
-        <Heading css={{ color: '$tonal200' }}>IRISPass</Heading>
+        <Heading size='lg' css={{ color: '$tonal200' }}>
+          IRISPass
+        </Heading>
+        <Text size='sm' css={{ color: '$tonal200' }}>
+          BY
+        </Text>
+        <Link
+          target='_blank'
+          href='https://avinashv.dev'
+          css={{
+            '&, &:hover, &:active, &:focus': {
+              color: '$tonal200',
+              textDecoration: 'none',
+            },
+            '& > span': { color: '$primary' },
+          }}
+        >
+          avinashv<span>.dev</span>
+        </Link>
       </Flex>
       <Flex
         css={{
