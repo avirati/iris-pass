@@ -1,6 +1,7 @@
 import React from 'react';
 import { SHA256 } from 'crypto-js';
 import { v4 as UUID } from 'uuid';
+import { useTimer } from 'react-timer-hook';
 
 import { masterPasswordStore, deviceStore } from '../../storage';
 import { CryptoUtil } from '../../utils/crypto';
@@ -8,6 +9,8 @@ import { toast } from '../../shared-components';
 
 import { IUseMasterPasswordContext } from './useMasterPassword.types';
 import { useBiometrics } from '../use-biometrics';
+
+const MASTER_PASSWORD_TIMEOUT = 5 * 60 * 1000;
 
 (async () => {
   const deviceIdStored = await deviceStore.hasItem('deviceId');
@@ -48,6 +51,11 @@ export const UseMasterPasswordProvider: React.FC<{
   const { saveCredentials, verifyCredentials, verifyIdentity } =
     useBiometrics();
 
+  const { restart } = useTimer({
+    expiryTimestamp: new Date(Date.now() + MASTER_PASSWORD_TIMEOUT),
+    onExpire: () => lock(),
+  });
+
   React.useEffect(() => {
     masterPasswordStore.hasItem('validatorText').then((value) => {
       setIsMasterPasswordSaved(value);
@@ -63,6 +71,14 @@ export const UseMasterPasswordProvider: React.FC<{
       }
     });
   }, [refreshCounter]);
+
+  const persistMasterPassword = React.useCallback(
+    (password: string) => {
+      setMasterPassword(password);
+      restart(new Date(Date.now() + MASTER_PASSWORD_TIMEOUT), true);
+    },
+    [restart]
+  );
 
   const getHashedPassword = (email: string, password: string) =>
     SHA256(`${email}|${password}`).toString();
@@ -90,33 +106,36 @@ export const UseMasterPasswordProvider: React.FC<{
       await masterPasswordStore.setItem('email', email);
       setRefreshCounter(refreshCounter + 1);
       setEmail(email);
-      setMasterPassword(hashedPassword);
+      persistMasterPassword(hashedPassword);
       toast.success('Master Password saved!');
     },
-    [refreshCounter, saveCredentials, verifyIdentity]
+    [persistMasterPassword, refreshCounter, saveCredentials, verifyIdentity]
   );
 
-  const verify = React.useCallback(async (hashedPassword: string) => {
-    const storedDeviceId = (await deviceStore.getItem<string>(
-      'deviceId'
-    )) as string;
-    const storedValidatorText = await masterPasswordStore.getItem<string>(
-      'validatorText'
-    );
-    try {
-      const deviceId = CryptoUtil.decrypt(
-        storedValidatorText as string,
-        hashedPassword
+  const verify = React.useCallback(
+    async (hashedPassword: string) => {
+      const storedDeviceId = (await deviceStore.getItem<string>(
+        'deviceId'
+      )) as string;
+      const storedValidatorText = await masterPasswordStore.getItem<string>(
+        'validatorText'
       );
-      const doesMatch = deviceId === storedDeviceId;
-      if (doesMatch) {
-        setMasterPassword(hashedPassword);
+      try {
+        const deviceId = CryptoUtil.decrypt(
+          storedValidatorText as string,
+          hashedPassword
+        );
+        const doesMatch = deviceId === storedDeviceId;
+        if (doesMatch) {
+          persistMasterPassword(hashedPassword);
+        }
+        return doesMatch;
+      } catch (error) {
+        return false;
       }
-      return doesMatch;
-    } catch (error) {
-      return false;
-    }
-  }, []);
+    },
+    [persistMasterPassword]
+  );
 
   const verifyMasterPassword = React.useCallback(
     async (password: string): Promise<boolean> => {
