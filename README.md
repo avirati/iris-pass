@@ -11,9 +11,9 @@
 
 ## Binaries
 
-1. [MacOS](https://www.dropbox.com/s/17zgva1vwupdczp/irispass.dmg?dl=1)
-2. [Windows](https://www.dropbox.com/s/j22tzfah79sw0yk/irispass.exe?dl=1)
-3. [Linux](https://www.dropbox.com/scl/fo/mtmrjjooxjmfdxzjo18dr/h?dl=0&rlkey=z9077me37jop8n8aodnpovrw9)
+1. [MacOS](https://drive.google.com/file/d/17UiFNzb-pebtogtU6jSbpd9RaIbapgtY/view)
+2. [Windows](https://drive.google.com/file/d/1VC5xdTQWnwBjaiYBULnc8Yj--tf4dS9v/view)
+3. [Linux](https://drive.google.com/drive/folders/1vXLeC4Jj2s6V65zW2g4zZxxHL7POyNjy)
 4. [Android (Play Store)](https://play.google.com/store/apps/details?id=dev.avinashv.irispass)
 
 ## About IRISPass
