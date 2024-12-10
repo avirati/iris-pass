@@ -1,7 +1,7 @@
 import React from 'react';
 import { createColumnHelper } from '@tanstack/react-table';
 
-import { Box, DataTable, Table } from '../../shared-components';
+import { Box, DataTable, Table, Text } from '../../shared-components';
 import { ContentContainer } from '../../components/content-container';
 import { IPassword, usePasswords } from '../../hooks/use-passwords';
 import { PasswordCard } from '../../components/password-card';
@@ -30,6 +30,7 @@ export const Dashboard: React.FC = () => {
     <ContentContainer css={{ gap: '$4', '& > label': { display: 'none' } }}>
       {passwords.length > 0 ? (
         <>
+          <Text css={{ color: 'white' }}>{passwords.length} items</Text>
           <DataTable
             columns={columns}
             data={passwords as any}
