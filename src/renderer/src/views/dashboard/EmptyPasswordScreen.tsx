@@ -11,8 +11,7 @@ export const EmptyPasswordScreen: React.FC = () => {
         No passwords found!
       </EmptyState.Title>
       <EmptyState.Body css={{ color: '$tonal200' }}>
-        Generate most secure passwords in a click! And sync them across devices
-        :)
+        Generate most secure passwords in a click!
       </EmptyState.Body>
     </EmptyState>
   );
